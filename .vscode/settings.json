@@ -1,0 +1,12 @@
+{
+    "emmet.includeLanguages": {
+        "javascript": "javascriptreact",
+        "javascriptreact": "html",
+        "typescriptreact": "html"
+    },
+    "emmet.preferences": {
+
+    },
+    "editor.codeLensFontFamily": "'Anonymous Pro', Menlo, Monaco, 'Courier New', monospace",
+    "editor.fontFamily": "'Fira Code', 'Fira Code Retina', 'Fira Code Light', 'Courier New', monospace"
+}
