@@ -1178,34 +1178,37 @@ const ProductManagement = () => {
             {!fetchColorsLoading ? (
               <div className="mb-4">
                 {selectedColors.length > 0 && (
-                  <div className="flex flex-wrap">
-                    {showingColors.map((color) => (
-                      <div
-                        key={color.value}
-                        className="flex items-center justify-between p-2 mb-2 mr-2 bg-gray-100 rounded shadow relative"
-                        style={{
-                          backgroundColor: chroma(color).alpha(1).css(),
-                        }}
-                      >
-                        <span className="text-white font-semibold mr-2">
-                          {color.name}
-                        </span>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedColorObjects.map((color) => (
+                      <div className="flex flex-col w-32 h-32 bg-gray-100 rounded shadow  ">
                         <div
-                          className="w-16 h-12 flex flex-col"
+                          key={color.value}
+                          className=" flex flex-row  w-full h-full relative"
+                          style={{
+                            backgroundColor: chroma(color.color).alpha(1).css(),
+                          }}
+                        >
+                          {/* <div
+                          className="w-10 h-6"
                           style={{
                             backgroundColor: chroma(color).alpha(1).css(),
                           }}
-                        >
-                          {/* &times; button positioned in top-right corner */}
+                        ></div> */}
                           <button
-                            className="absolute top-0 right-0 mt-1 mr-1 cursor-pointer text-white"
+                            className="absolute right-1 top-0 cursor-pointer text-white"
                             onClick={(e) => {
                               e.preventDefault();
-                              removeShowingColors(color);
+                              removeSelectedColors(color);
                             }}
                           >
                             &times;
                           </button>
+                        </div>
+                        <div className="mt-1 text-center text-zinc-400">
+                          {color.color}
+                        </div>
+                        <div className="text-center text-zinc-400">
+                          {color.ncsCode}
                         </div>
                       </div>
                     ))}
@@ -1789,7 +1792,7 @@ const ProductManagement = () => {
             <div className="flex gap-2">
               <label className="block text-sm font-medium  text-zinc-600"></label>
               <div
-                className="mt-1 w-40 h-40 border rounded-md flex items-center justify-center cursor-pointer bg-gray-100 text-red-400 border-neutral-200  hover:border-blue-900"
+                className="mt-3 w-40 h-40 border rounded-md flex items-center justify-center cursor-pointer bg-gray-100 text-red-400 border-neutral-200 hover:border-blue-900 flex-shrink-0"
                 onClick={() => document.getElementById("imageUpload").click()}
               >
                 Add Image
