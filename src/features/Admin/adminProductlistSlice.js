@@ -5,25 +5,24 @@ export const adminProductslist = createAsyncThunk(
   "products/admin/productslist",
   async (pageNumber, thunkAPI) => {
     try {
-      const headers ={
-        Authorization:localStorage.getItem("admin-token")
-      }
+      const headers = {
+        Authorization: localStorage.getItem("admin-token"),
+      };
       let reqOptions = {
         url: "http://3.6.127.143/api/admin/product/list",
         method: "POST",
-        headers:headers,
+        headers: headers,
         data: {
-          page:pageNumber,
+          page: pageNumber,
           limit: 10,
-        }
-       
+        },
       };
 
       let response = await axios.request(reqOptions);
       console.log(response);
       return response.data;
     } catch (error) {
-        return thunkAPI.rejectWithValue(error.response.data);
+      return thunkAPI.rejectWithValue(error.response.data);
     }
   }
 );
@@ -31,40 +30,37 @@ export const dealersList = createAsyncThunk(
   "products/admin/dealerslist",
   async (pageNumber, thunkAPI) => {
     try {
-      const headers ={
-        Authorization:localStorage.getItem("admin-token")
-      }
+      const headers = {
+        Authorization: localStorage.getItem("admin-token"),
+      };
       let reqOptions = {
         url: "http://3.6.127.143/api/admin/dealer/list",
         method: "POST",
-        headers:headers,
+        headers: headers,
         data: {
-          page:pageNumber,
+          page: pageNumber,
           limit: 10,
-        }
-       
+        },
       };
 
       let response = await axios.request(reqOptions);
       console.log(response);
       return response.data;
     } catch (error) {
-        return thunkAPI.rejectWithValue(error.response.data);
+      return thunkAPI.rejectWithValue(error.response.data);
     }
   }
 );
 
-
 const adminProductsSlice = createSlice({
- name: "adminProducts",
+  name: "adminProducts",
   initialState: {
     items: [],
-    status:"idle",
+    status: "idle",
     error: null,
-    dealersItems:[],
-    dealersStatus:"idle",
-    dealersSuccess:false,
-  
+    dealersItems: [],
+    dealersStatus: "idle",
+    dealersSuccess: false,
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -75,8 +71,6 @@ const adminProductsSlice = createSlice({
       .addCase(adminProductslist.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.items = action.payload;
-        
-
       })
       .addCase(adminProductslist.rejected, (state, action) => {
         state.addProductStatus = "failed";
@@ -88,14 +82,11 @@ const adminProductsSlice = createSlice({
       .addCase(dealersList.fulfilled, (state, action) => {
         state.dealersStatus = "succeeded";
         state.dealersItems = action.payload;
-        
-
       })
       .addCase(dealersList.rejected, (state, action) => {
         state.dealersStatus = "failed";
-        
       });
   },
-})
+});
 
 export default adminProductsSlice.reducer;

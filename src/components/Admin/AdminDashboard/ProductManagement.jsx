@@ -529,7 +529,7 @@ const ProductManagement = () => {
     colour: [],
     finishType: "",
     images: [],
-
+    status: "A",
     about: "",
     tax: "",
   });
@@ -616,6 +616,7 @@ const ProductManagement = () => {
 
     finishType: Yup.string().required("Finish Type is required"),
     // about: Yup.array().of(Yup.string().required("About is required")),
+    status: Yup.string().required("Required"),
     tax: Yup.number()
       .required("Tax is required")
       .positive("Tax must be a positive number"),
@@ -703,7 +704,7 @@ const ProductManagement = () => {
         });
         setTimeout(() => {
           handleCloseButton();
-        }, 2000);
+        }, 1400);
       } else if (!response.data.success) {
         setToast({
           visible: true,
@@ -764,7 +765,7 @@ const ProductManagement = () => {
         colour: selectedColors,
         finishType: values.finishType,
         // images: [],
-
+        status: values.status,
         about: values.about.split(","),
         tax: values.tax,
       };
@@ -834,9 +835,12 @@ const ProductManagement = () => {
         // dispatch(addProduct(data));
 
         handleAddprouducts(data);
-
-        // Action.resetForm();
       }
+      setSelectedColorObjects([]);
+      setSelectedColors([]);
+      setTimeout(() => {
+        Action.resetForm();
+      }, 1500);
     },
   });
   // console.log(values);
@@ -877,14 +881,15 @@ const ProductManagement = () => {
   const [showAddProduct, setShowAddProduct] = useState(false);
 
   const handleAddProduct = () => {
+    setSelectedColors([]);
     setShowAddProduct(!showAddProduct);
   };
 
   const handleCloseButton = () => {
     setLoading(false);
     setShowAddProduct(!showAddProduct);
-    setShowingColors([]);
     setSelectedColors([]);
+    setShowingColors([]);
     setIncludeProductId(false);
     setImagePreviews([]);
     setImages([]);
@@ -920,6 +925,7 @@ const ProductManagement = () => {
       image5: "",
       about: [],
       tax: "",
+      status: "A",
     });
   };
 
@@ -933,6 +939,7 @@ const ProductManagement = () => {
       expiryDate: formatDate(product.expiryDate),
       about: product.about.join(","),
       colour: product.colour.map((color) => color._id),
+      status: product.status,
     });
     setShowingColors(product.colour.map((color) => color.hexCode));
     setSelectedColors(product.colour.map((color) => color._id));
@@ -1130,7 +1137,7 @@ const ProductManagement = () => {
   console.log("form-values after adding new dealer", form);
 
   return (
-    <div className="ml-[20rem] p-3 pl-6 pr-6 font-custom bg-[#F0F0F0] min-h-svh">
+    <div className="ml-[20rem] p-3 pl-6 pr-3 font-custom bg-[#F0F0F0] min-h-svh">
       {isOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 font-custom ">
           <div className="relative bg-white w-11/12 max-w-4xl h-screen p-6 rounded-lg shadow-lg overflow-y-auto mt-4">
@@ -1367,24 +1374,24 @@ const ProductManagement = () => {
         <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
           <div className="bg-white rounded-lg p-9 max-w-md mx-2 font-custom ">
             <h2 className="text-xl font-semibold  mb-3 text-center">
-              Are you sure ?{" "}
+              Are you sure{" "}
             </h2>
             <h2 className="text-sm  mb-5 text-center">
-              You want to delete this product ?{" "}
+              You want to delete this product?{" "}
             </h2>
 
             <div className="flex justify-between">
               <button
                 onClick={() => handleNoButton()}
-                className="bg-zinc-200 text-black px-6 py-2 rounded-sm hover:bg-zinc-400 cursor-pointer"
+                className="bg-zinc-200 text-black px-6 py-2 rounded-md hover:bg-zinc-400 cursor-pointer"
               >
-                Cancel
+                No
               </button>
               <button
                 onClick={() => handleDeleteProduct()}
-                className="bg-blue-900 text-white px-6 py-2 rounded-md hover:bg-red-700 cursor-pointer"
+                className="bg-red-800 text-white px-6 py-2 rounded-md hover:bg-red-700 cursor-pointer"
               >
-                Delete
+                Yes
               </button>
             </div>
           </div>
@@ -1407,8 +1414,7 @@ const ProductManagement = () => {
             <div className="space-x-4">
               <button
                 onClick={handleCloseButton}
-                className=" px-4 py-2 rounded "
-                style={{ color: "#A70024" }}
+                className="px-4 py-2 rounded text-[#A70024]"
               >
                 Cancel
               </button>
@@ -1889,6 +1895,38 @@ const ProductManagement = () => {
                   <p className="text-red-500 text-sm">{errors.tax}</p>
                 )}
               </div>
+              <div>
+                <label className="block text-sm font-medium  text-zinc-600 mt-2">
+                  Status
+                </label>
+                <div className="flex items-center gap-4 mt-3">
+                  <label className="inline-flex items-center">
+                    <input
+                      type="radio"
+                      name="status"
+                      value="A"
+                      checked={values.status === "A"}
+                      onChange={handleChange}
+                      className="form-radio"
+                    />
+                    <span className="ml-2">Active</span>
+                  </label>
+                  <label className="inline-flex items-center">
+                    <input
+                      type="radio"
+                      name="status"
+                      value="D"
+                      onChange={handleChange}
+                      className="form-radio"
+                      checked={values.status === "D"}
+                    />
+                    <span className="ml-2">DeActive</span>
+                  </label>
+                </div>
+                {errors.status && touched.status && (
+                  <p className="text-red-500 text-sm">{errors.status}</p>
+                )}
+              </div>
             </div>
 
             <div>
@@ -2076,7 +2114,7 @@ const ProductManagement = () => {
                     {product.brand}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {product.size}
+                    {product.weight}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     {product.quantity}
@@ -2099,7 +2137,6 @@ const ProductManagement = () => {
                       onClick={() => handleEditProduct(product)}
                       className="text-blue-500 mr-2"
                     >
-                      {/* <FaEdit /> */}
                       <img src={edit} alt="" className="h-7 w-10" />
                     </button>
                     <button
@@ -2109,7 +2146,6 @@ const ProductManagement = () => {
                       className="text-red-500"
                     >
                       <img src={delete1} alt="" className="h-7 w-10" />
-                      {/* <FaTrash /> */}
                     </button>
                   </td>
                 </tr>

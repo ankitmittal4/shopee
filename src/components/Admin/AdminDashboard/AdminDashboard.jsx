@@ -278,7 +278,9 @@ function MainContent() {
                 </div>
                 <div className="flex flex-col flex-1 shrink items-start px-5 pt-5 pb-3 rounded-md basis-0 bg-neutral-100 min-h-[118px] min-w-[240px]">
                   <div className="flex flex-col justify-center h-[51px]">
-                    <h3 className="text-base text-black">Number of Dealers</h3>
+                    <h3 className="text-base text-black">
+                      Number of Dealers/Franchise
+                    </h3>
                     <p className="mt-1.5 text-2xl font-medium text-neutral-700">
                       {dealers}
                     </p>

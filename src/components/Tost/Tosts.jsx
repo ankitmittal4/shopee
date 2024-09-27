@@ -159,7 +159,7 @@ const Toast = ({ message, type, onClose }) => {
     const timer = setTimeout(() => {
       setIsVisible(false);
       onClose();
-    }, 1700); // Auto close after 3 seconds
+    }, 1200); // Auto close after 3 seconds
     return () => clearTimeout(timer);
   }, [onClose, message, type]);
 
