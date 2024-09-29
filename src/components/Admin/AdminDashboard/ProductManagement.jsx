@@ -83,18 +83,6 @@ const ProductManagement = () => {
     }
   }, [dispatch, status, addProductStatus, currentPage]);
   //  const [editProductId ,setEditProductId] = useState(null)
-  useEffect(() => {
-    if (items && items.data) {
-      setProducts(items.data.products);
-      setFilteredProducts(items.data.products);
-      const newDealer = items.data.products.find(
-        (product) => product._id === form._id
-      );
-      console.log("newDeaeler product--", newDealer);
-      setDealers(newDealer?.dealer);
-      console.log("newDeaeler product--", dealers);
-    }
-  }, [dispatch, status, addProductStatus, currentPage]);
 
   /////////////////color list fetching ////////////////////////////////
 
@@ -929,39 +917,39 @@ const ProductManagement = () => {
     });
   };
 
-  const handleEditProduct = (product) => {
-    setIncludeProductId(true);
+  // const handleEditProduct = (product) => {
+  //   setIncludeProductId(true);
 
-    setForm({
-      ...product,
-      _id: product._id,
-      manufacturingDate: formatDate(product.manufacturingDate),
-      expiryDate: formatDate(product.expiryDate),
-      about: product.about.join(","),
-      colour: product.colour.map((color) => color._id),
-      status: product.status,
-    });
-    setShowingColors(product.colour.map((color) => color.hexCode));
-    setSelectedColors(product.colour.map((color) => color._id));
-    const transformedColors = product.colour.map((color) => ({
-      value: color._id, // _id as value
-      color: color.hexCode,
-      label: color.name,
-      ncsCode: color.ncsCode, // hexCode as color
-      // name: color.NcsCode       // NcsCode as name
-    }));
-    setSelectedColorObjects(transformedColors);
-    setImagePreviews(product.images);
-    setInitialProduct({
-      ...product,
-      colour: product.colour.map((color) => color._id),
-      manufacturingDate: formatDate(product.manufacturingDate),
-      expiryDate: formatDate(product.expiryDate),
-    });
-    setDealers(product.dealer);
-    setShowAddProduct(true);
-    setImages(product.images);
-  };
+  //   setForm({
+  //     ...product,
+  //     _id: product._id,
+  //     manufacturingDate: formatDate(product.manufacturingDate),
+  //     expiryDate: formatDate(product.expiryDate),
+  //     about: product.about.join(","),
+  //     colour: product.colour.map((color) => color._id),
+  //     status: product.status,
+  //   });
+  //   setShowingColors(product.colour.map((color) => color.hexCode));
+  //   setSelectedColors(product.colour.map((color) => color._id));
+  //   const transformedColors = product.colour.map((color) => ({
+  //     value: color._id, // _id as value
+  //     color: color.hexCode,
+  //     label: color.name,
+  //     ncsCode: color.ncsCode, // hexCode as color
+  //     // name: color.NcsCode       // NcsCode as name
+  //   }));
+  //   setSelectedColorObjects(transformedColors);
+  //   setImagePreviews(product.images);
+  //   setInitialProduct({
+  //     ...product,
+  //     colour: product.colour.map((color) => color._id),
+  //     manufacturingDate: formatDate(product.manufacturingDate),
+  //     expiryDate: formatDate(product.expiryDate),
+  //   });
+  //   setDealers(product.dealer);
+  //   setShowAddProduct(true);
+  //   setImages(product.images);
+  // };
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -970,59 +958,76 @@ const ProductManagement = () => {
     const day = String(date.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   };
-  // const handleEditProduct = useCallback(
-  //   (product) => {
-  //     setIncludeProductId(true);
+  const handleEditProduct = useCallback(
+    (product) => {
+      setIncludeProductId(true);
+      console.log("Edit product ID: ", product._id);
 
-  //     setForm({
-  //       ...product,
-  //       _id: product._id,
-  //       manufacturingDate: formatDate(product.manufacturingDate),
-  //       expiryDate: formatDate(product.expiryDate),
-  //       about: product.about.join(","), // Join array with comma
-  //       colour: product.colour.map((color) => color._id),
-  //     });
+      setForm({
+        ...product,
+        _id: product._id,
+        manufacturingDate: formatDate(product.manufacturingDate),
+        expiryDate: formatDate(product.expiryDate),
+        about: product.about.join(","), // Join array with comma
+        colour: product.colour.map((color) => color._id),
+      });
 
-  //     setShowingColors(product.colour.map((color) => color.hexCode));
-  //     setSelectedColors(product.colour.map((color) => color._id));
+      setShowingColors(product.colour.map((color) => color.hexCode));
+      setSelectedColors(product.colour.map((color) => color._id));
 
-  //     const transformedColors = product.colour.map((color) => ({
-  //       value: color._id, // _id as value
-  //       color: color.hexCode,
-  //       label: color.name,
-  //       ncsCode: color.ncsCode, // ncsCode as name
-  //     }));
+      const transformedColors = product.colour.map((color) => ({
+        value: color._id, // _id as value
+        color: color.hexCode,
+        label: color.name,
+        ncsCode: color.ncsCode, // ncsCode as name
+      }));
 
-  //     setSelectedColorObjects(transformedColors);
-  //     setImagePreviews(product.images);
+      setSelectedColorObjects(transformedColors);
+      setImagePreviews(product.images);
 
-  //     setInitialProduct({
-  //       ...product,
-  //       colour: product.colour.map((color) => color._id),
-  //       manufacturingDate: formatDate(product.manufacturingDate),
-  //       expiryDate: formatDate(product.expiryDate),
-  //     });
+      setInitialProduct({
+        ...product,
+        colour: product.colour.map((color) => color._id),
+        manufacturingDate: formatDate(product.manufacturingDate),
+        expiryDate: formatDate(product.expiryDate),
+      });
 
-  //     setDealers(product.dealer);
-  //     setShowAddProduct(true);
-  //     setImages(product.images);
-  //   },
-  //   [
-  //     setIncludeProductId,
-  //     setForm,
-  //     formatDate,
-  //     setShowingColors,
-  //     setSelectedColors,
-  //     setSelectedColorObjects,
-  //     setImagePreviews,
-  //     setInitialProduct,
-  //     setDealers,
-  //     setShowAddProduct,
-  //     setImages,
-  //     laodingDealerId, // If "loading" impacts the logic of this function
-  //   ]
-  // );
+      setDealers(product.dealer);
+      setShowAddProduct(true);
+      setImages(product.images);
+    },
+    [
+      setIncludeProductId,
+      setForm,
+      formatDate,
+      setShowingColors,
+      setSelectedColors,
+      setSelectedColorObjects,
+      setImagePreviews,
+      setInitialProduct,
+      setDealers,
+      dealers,
+      setShowAddProduct,
+      setImages,
+      laodingDealerId, // If "loading" impacts the logic of this function
+    ]
+  );
   console.log("linked dealers ---", dealers);
+  useEffect(() => {
+    if (items && items.data) {
+      console.log("#########################items--", items);
+      console.log("#########################form--", form);
+      setProducts(items.data.products);
+      setFilteredProducts(items.data.products);
+      const newDealer = items.data.products.find(
+        (product) => product._id === form._id
+      );
+
+      console.log("#########################newDeaeler product--", newDealer);
+      setDealers(newDealer?.dealer);
+      console.log("newDeaeler product--", dealers);
+    }
+  }, [items, form._id, dispatch, status, addProductStatus, currentPage]);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -1344,10 +1349,10 @@ const ProductManagement = () => {
         <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
           <div className="bg-zinc-200 rounded-lg p-6 max-w-md mx-2 font-custom ">
             <h2 className="text-xl font-semibold  mb-3 text-center">
-              Are you sure ?{" "}
+              Are you sure{" "}
             </h2>
             <h2 className="text-sm  mb-3 text-center">
-              You want to clear colour selection ?{" "}
+              You want to clear colour selection?{" "}
             </h2>
 
             <div className="flex justify-between">
@@ -1356,13 +1361,13 @@ const ProductManagement = () => {
                   e.preventDefault();
                   setClearSelectedPopUp(!clearSelectedPopUp);
                 }}
-                className="bg-blue-900 text-white px-4 py-1 rounded-md hover:bg-blue-900 cursor-pointer"
+                className="bg-zinc-200 text-black px-6 py-2 rounded-md hover:bg-zinc-400 cursor-pointer"
               >
                 No
               </button>
               <button
                 onClick={(e) => handelCandle(e)}
-                className="bg-blue-900 text-white px-4 py-1 rounded-md hover:bg-red-700 cursor-pointer"
+                className="bg-red-800 text-white px-6 py-2 rounded-md hover:bg-red-700 cursor-pointer"
               >
                 Yes
               </button>
@@ -1895,38 +1900,6 @@ const ProductManagement = () => {
                   <p className="text-red-500 text-sm">{errors.tax}</p>
                 )}
               </div>
-              <div>
-                <label className="block text-sm font-medium  text-zinc-600 mt-2">
-                  Status
-                </label>
-                <div className="flex items-center gap-4 mt-3">
-                  <label className="inline-flex items-center">
-                    <input
-                      type="radio"
-                      name="status"
-                      value="A"
-                      checked={values.status === "A"}
-                      onChange={handleChange}
-                      className="form-radio"
-                    />
-                    <span className="ml-2">Active</span>
-                  </label>
-                  <label className="inline-flex items-center">
-                    <input
-                      type="radio"
-                      name="status"
-                      value="D"
-                      onChange={handleChange}
-                      className="form-radio"
-                      checked={values.status === "D"}
-                    />
-                    <span className="ml-2">DeActive</span>
-                  </label>
-                </div>
-                {errors.status && touched.status && (
-                  <p className="text-red-500 text-sm">{errors.status}</p>
-                )}
-              </div>
             </div>
 
             <div>
@@ -2023,6 +1996,38 @@ const ProductManagement = () => {
                 <p className="text-red-500 text-sm">{errors.about}</p>
               )}
             </div>
+            <div>
+              <label className="block text-sm font-medium  text-zinc-600 mt-2">
+                Status
+              </label>
+              <div className="flex items-center gap-4 mt-3">
+                <label className="inline-flex items-center">
+                  <input
+                    type="radio"
+                    name="status"
+                    value="A"
+                    checked={values.status === "A"}
+                    onChange={handleChange}
+                    className="form-radio"
+                  />
+                  <span className="ml-2">Active</span>
+                </label>
+                <label className="inline-flex items-center">
+                  <input
+                    type="radio"
+                    name="status"
+                    value="D"
+                    onChange={handleChange}
+                    className="form-radio"
+                    checked={values.status === "D"}
+                  />
+                  <span className="ml-2">DeActive</span>
+                </label>
+              </div>
+              {errors.status && touched.status && (
+                <p className="text-red-500 text-sm">{errors.status}</p>
+              )}
+            </div>
           </form>
           <div className="flex justify-between items-center mb-4">
             <div className="text-2xl font-medium flex gap-2"></div>
@@ -2053,34 +2058,34 @@ const ProductManagement = () => {
           <table className="min-w-full divide-y divide-gray-200 bg-neutral-200">
             <thead className="bg-[#5C5C5C]">
               <tr>
-                {/* <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                {/* <th className="px-6 py-3 text-left text-xs text-white font-bold tracking-wider">
                   <input type="checkbox" name="" id="" />
                 </th> */}
-                <th className="px-6 py-3 text-left text-xs  text-white uppercase tracking-wider font-bold">
+                <th className="px-6 py-3 text-left text-xs  text-white tracking-wider font-bold">
                   Image
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-bold text-white tracking-wider">
                   Id
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-bold text-white tracking-wider">
                   Name
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-bold text-white tracking-wider">
                   Brand
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-bold text-white tracking-wider">
                   Size
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-bold text-white tracking-wider">
                   Qty
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-bold text-white tracking-wider">
                   Price
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-bold text-white tracking-wider">
                   Status
                 </th>
-                <th className="px-8 py-3 text-left text-sm font-bold text-white uppercase tracking-wider">
+                <th className="px-8 py-3 text-left text-sm font-bold text-white tracking-wider">
                   Action
                 </th>
               </tr>
@@ -2173,7 +2178,7 @@ const ProductManagement = () => {
           </div>
           <div className="bg-white rounded-lg shadow overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200 bg-neutral-200">
-              <thead>
+              <thead className="bg-[#5C5C5C]">
                 <tr>
                   {/* <th className="px-6 py-3 text-left">
                 <input
@@ -2182,42 +2187,42 @@ const ProductManagement = () => {
                   // checked={selectedDealerIds.length === filteredDealers.length}
                 />
               </th> */}
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs text-white font-bold tracking-wider">
                     No
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs text-white font-bold tracking-wider">
                     Id
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs text-white font-bold tracking-wider">
                     Name & Phone No
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs text-white font-bold tracking-wider">
                     Address
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs text-white font-bold tracking-wider">
                     Serviceable Pincode
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs text-white font-bold tracking-wider">
                     Qty
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs text-white font-bold tracking-wider">
                     Status
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs text-white font-bold tracking-wider">
                     Action
                   </th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {dealers?.map((dealer, index) => (
-                  <tr key={index}>
+                  <tr key={dealer._id}>
                     {/* <td className="px-6 py-3">
-                  <input
-                    type="checkbox"
-                    // onChange={(e) => handleSelectDealer(e, dealer._id)}
-                    // checked={selectedDealerIds.includes(dealer._id)}
-                  />
-                </td> */}
+                    <input
+                      type="checkbox"
+                      // onChange={(e) => handleSelectDealer(e, dealer._id)}
+                      // checked={selectedDealerIds.includes(dealer._id)}
+                    />
+                  </td> */}
 
                     <td className="px-6 py-4 whitespace-nowrap">{index + 1}</td>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -2228,10 +2233,10 @@ const ProductManagement = () => {
                     </td>
                     <td className="px-6 py-4 ">{dealer.addressLine1}</td>
                     <td className="px-6 py-4 ">
-                      {/* {dealer.pincode} */}
-                      {dealer?.serviceLocation
-                        ?.map((location) => location.pincode)
-                        .join(", ")}
+                      {dealer.pincode}
+                      {/* {dealer?.serviceLocation
+                          ?.map((location) => location.pincode)
+                          .join(", ")} */}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       {/* {dealer.quantity} */}
@@ -2243,13 +2248,17 @@ const ProductManagement = () => {
                           dealer.status === "Y" ? "green" : "red"
                         }-500`}
                       >
-                        {dealer.status === "Y" ? <p>Active</p> : <p>Inative</p>}
+                        {dealer.status === "Y" ? (
+                          <p>Active</p>
+                        ) : (
+                          <p>DeActive</p>
+                        )}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <button
                         onClick={() => handleUnlinkDealer(dealer._id)}
-                        className=" px-4 py-2 rounded-lg bg-red-500 hover:bg-blue-900 text-sm text-white"
+                        className=" px-4 py-2 rounded-lg bg-[#A70024] hover:bg-red-700 text-sm text-white"
                       >
                         {laodingDealerId === dealer._id ? (
                           <Loader content="Loading..." />

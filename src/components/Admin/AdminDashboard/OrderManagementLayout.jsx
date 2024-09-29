@@ -5,7 +5,7 @@ import OrderDetails from "./OrderDetails";
 
 function OrderManagementLayout() {
   return (
-    <main className="flex-1 p-4">
+    <main className="flex-1">
       <Routes>
         <Route path="" element={<OrderManagement />} />
         <Route path="order-details/:id" element={<OrderDetails />} />

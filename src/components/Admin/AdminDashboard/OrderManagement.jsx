@@ -6,6 +6,8 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 import Loader1 from "../../Loaders/Loader1";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import edit from "../../../Assets/edit.svg";
+import delete1 from "../../../Assets/delete.svg";
 
 const orderDetails = [
   {
@@ -160,147 +162,147 @@ function OrderManagement() {
   };
 
   return (
-    // <>
-    //   <div className="ml-72 font-custom">
-    //     <div className="flex justify-between items-center mb-4">
-    //       <div className="text-2xl font-medium flex gap-2">
-    //         <img src={box_iocn} alt="box icon" />
-    //         Recent Orders
-    //       </div>
-    //     </div>
-    //     {deletePopup && (
-    //       <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
-    //         <div className="bg-zinc-200 rounded-lg p-6 max-w-md mx-2 font-custom ">
-    //           {!success && !loading && (
-    //             <>
-    //               <h2 className="text-xl font-semibold  mb-3 text-center">
-    //                 Are you sure ?{" "}
-    //               </h2>
-    //               <h2 className="text-sm  mb-3 text-center">
-    //                 You want to delete this order ?{" "}
-    //               </h2>
-    //               <div className="flex justify-between">
-    //                 <button
-    //                   onClick={() => handleNoButton()}
-    //                   className="bg-green-500 text-white px-4 py-1 rounded-md hover:bg-green-600 cursor-pointer"
-    //                 >
-    //                   No
-    //                 </button>
-    //                 <button
-    //                   onClick={() => handleDeleteOrder()}
-    //                   className="bg-red-500 text-white px-4 py-1 rounded-md hover:bg-red-600 cursor-pointer"
-    //                 >
-    //                   Delete
-    //                 </button>
-    //               </div>
-    //             </>
-    //           )}
-    //           {loading && (
-    //             <div className="flex justify-center items-center">
-    //               <Loader1 />
-    //             </div>
-    //           )}
-    //           {!loading && success && (
-    //             <p>The order has been deleted successfully</p>
-    //           )}
-    //         </div>
-    //       </div>
-    //     )}
-    //     <div className="bg-white rounded-lg shadow overflow-x-auto">
-    //       <table className="min-w-full divide-y divide-gray-200 bg-neutral-200">
-    //         <thead>
-    //           <tr>
-    //             {/* <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-    //             <input type="checkbox" name="" id="" />
-    //           </th> */}
-    //             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-    //               Id
-    //             </th>
-    //             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-    //               Product Info
-    //             </th>
-    //             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-    //               Customer Info
-    //             </th>
-    //             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-    //               Date
-    //             </th>
-    //             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-    //               Amount
-    //             </th>
-    //             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-    //               Qty
-    //             </th>
-    //             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-    //               Payment Method
-    //             </th>
-    //             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-    //               Status
-    //             </th>
-    //             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-    //               Action
-    //             </th>
-    //           </tr>
-    //         </thead>
-    //         {orderListStatus === "succeeded" && (
-    //           <tbody className="bg-white divide-y divide-gray-200">
-    //             {orders.map((order, index) => (
-    //               <tr key={order.orderId}>
-    //                 <td className="px-6 py-4 whitespace-nowrap">
-    //                   {order.orderId.slice(0, 6)}
-    //                 </td>
-    //                 <td className="px-6 py-4 ">{order.productName}</td>
-    //                 <td className="px-6 py-4 ">{order.customerName}</td>
-    //                 <td className="px-6 py-4 ">
-    //                   {formatDate(order.orderDate)}
-    //                 </td>
-    //                 <td className="px-6 py-4 ">₹{order.price}</td>
-    //                 <td className="px-6 py-4 ">{order.quantity}</td>
-    //                 <td className="px-6 py-4 ">{order.paymentMethod}</td>
+    <div className="ml-[19rem] p-3 pl-6 pr-3 font-custom bg-[#F0F0F0] min-h-svh">
+      <div className="flex justify-between items-center mb-4">
+        <div className="text-2xl font-medium flex gap-2">
+          <img src={box_iocn} alt="box icon" />
+          Recent Orders
+        </div>
+      </div>
+      {deletePopup && (
+        <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
+          <div className="bg-zinc-200 rounded-lg p-6 max-w-md mx-2 font-custom ">
+            {!success && !loading && (
+              <>
+                <h2 className="text-xl font-semibold  mb-3 text-center">
+                  Are you sure{" "}
+                </h2>
+                <h2 className="text-sm  mb-3 text-center">
+                  You want to delete this order?{" "}
+                </h2>
+                <div className="flex justify-between">
+                  <button
+                    onClick={() => handleNoButton()}
+                    className="bg-gray-300 text-white px-4 py-1 rounded-md hover:bg-gray-400 cursor-pointer"
+                  >
+                    No
+                  </button>
+                  <button
+                    onClick={() => handleDeleteOrder()}
+                    className="bg-red-900 text-white px-4 py-1 rounded-md hover:bg-red-700 cursor-pointer"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </>
+            )}
+            {loading && (
+              <div className="flex justify-center items-center">
+                <Loader1 />
+              </div>
+            )}
+            {!loading && success && (
+              <p>The order has been deleted successfully</p>
+            )}
+          </div>
+        </div>
+      )}
 
-    //                 <td className="px-6 py-4 whitespace-nowrap">
-    //                   <div
-    //                     className={`font-custom text-center px-4 py-2 rounded-md  cursor-pointer  text-white ${getStatusColor(
-    //                       order.status
-    //                     )}`}
-    //                   >
-    //                     {getStatus(order.status)}
-    //                   </div>
-    //                 </td>
+      <div className=" rounded-lg shadow overflow-x-auto">
+        <table className="min-w-full divide-y divide-gray-200 bg-neutral-200">
+          <thead className="bg-[#5C5C5C]">
+            <tr>
+              {/* <th className="px-6 py-3 text-left text-xs font-bold text-white tracking-wider">
+                <input type="checkbox" name="" id="" />
+              </th> */}
+              <th className="px-6 py-3 text-left text-xs font-bold text-white tracking-wider">
+                Id
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-bold text-white tracking-wider">
+                Product Info
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-bold text-white tracking-wider">
+                Customer Info
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-bold text-white tracking-wider">
+                Date
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-bold text-white tracking-wider">
+                Amount
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-bold text-white tracking-wider">
+                Qty
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-bold text-white tracking-wider">
+                Payment Method
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-bold text-white tracking-wider">
+                Status
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-bold text-white tracking-wider">
+                Action
+              </th>
+            </tr>
+          </thead>
+          {orderListStatus === "succeeded" && (
+            <tbody className=" divide-y divide-gray-200">
+              {orders.map((order, index) => (
+                <tr
+                  key={order.orderId}
+                  className={index % 2 === 0 ? "" : "bg-[#F0F0F0]"}
+                >
+                  <td className="px-2 py-4 whitespace-nowrap">
+                    {order.orderId.slice(0, 7)}
+                  </td>
+                  <td className="px-5 py-4 ">{order.productName}</td>
+                  <td className="px-5 py-4 ">{order.customerName}</td>
+                  <td className="px-3 py-4 ">{formatDate(order.orderDate)}</td>
+                  <td className="px-4 py-4 ">
+                    <span className="font-sans">₹</span>
+                    {order.price}
+                  </td>
+                  <td className="px-4 py-4 ">{order.quantity}</td>
+                  <td className="px-4 py-4 ">{order.paymentMethod}</td>
 
-    //                 <td className="px-6 py-4 whitespace-nowrap">
-    //                   <button
-    //                     onClick={() => handleEditOrder(order.subOrderId)}
-    //                     className="text-blue-500 mr-2"
-    //                   >
-    //                     <FaEdit />
-    //                   </button>
-    //                   <button
-    //                     onClick={() => handleDeleteButton(order.subOrderId)}
-    //                     className="text-red-500"
-    //                   >
-    //                     <FaTrash />
-    //                   </button>
-    //                 </td>
-    //               </tr>
-    //             ))}
-    //           </tbody>
-    //         )}
-    //       </table>
-    //       {/* {customerListStatus === "succeeded" && (
-    //         <Pagination
-    //           totalProducts={customerList.data.total}
-    //           productsPerPage={customerList.data.limit}
-    //           onPageChange={handlePageChange}
-    //           currentPage={currentPage}
-    //         />
-    //       )} */}
-    //     </div>
-    //   </div>
-    // </>
-    <>
-      <div className="ml-72">Order</div>
-    </>
+                  <td className="px-5 py-4 whitespace-nowrap">
+                    <div
+                      className={`font-custom text-center px-2 py-1 rounded-md  cursor-pointer  text-white ${getStatusColor(
+                        order.status
+                      )}`}
+                    >
+                      {getStatus(order.status)}
+                    </div>
+                  </td>
+
+                  <td className="px-5 py-4 whitespace-nowrap">
+                    <button
+                      // onClick={() => handleEditOrder(order.subOrderId)}
+                      className="text-blue-500 mr-2"
+                    >
+                      <img src={edit} alt="" className="h-7 w-10" />
+                    </button>
+                    <button
+                      onClick={() => handleDeleteButton(order.subOrderId)}
+                      className="text-red-500"
+                    >
+                      <img src={delete1} alt="" className="h-7 w-10" />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          )}
+        </table>
+        {/* {customerListStatus === "succeeded" && (
+            <Pagination
+              totalProducts={customerList.data.total}
+              productsPerPage={customerList.data.limit}
+              onPageChange={handlePageChange}
+              currentPage={currentPage}
+            />
+          )} */}
+      </div>
+    </div>
   );
 }
 
@@ -309,7 +311,7 @@ export default OrderManagement;
 const getStatusColor = (status) => {
   switch (status) {
     case 4:
-      return "bg-green-500  ";
+      return "bg-[#A70024]  ";
     case 5:
       return "bg-red-500 ";
     case 3:

@@ -21,7 +21,7 @@ export const dealerRegistration = createAsyncThunk(
 
       const data = response;
 
-      console.log("dealer added successfully",data);
+      console.log("dealer added successfully", data);
 
       return response.data;
     } catch (error) {
@@ -31,64 +31,72 @@ export const dealerRegistration = createAsyncThunk(
 );
 
 const dealerAddSlice = createSlice({
-
-    name: "dealerAdd",
-    initialState: {
-      token: null,
-      dealer: null,
-      isLoading: false,
-      message:"",
-      dealerStatus: "idle",
-    },
-    reducers: {},
-    extraReducers: (builder) => {
-      builder
-        .addCase(dealerRegistration.pending, (state) => {
-          state.isLoading = true;
-          state.error = null;
-           state.dealerStatus ="loading"
-        })
-        .addCase(dealerRegistration.fulfilled, (state, action) => {
-          state.isLoading = false;
-          state.dealer = true;
-          state.dealerStatus ="succeeded"
-          state.message = action.payload.message;
-          state.dealer = action.payload.data;
-          console.log("payload",action.payload.data)
+  name: "dealerAdd",
+  initialState: {
+    token: null,
+    dealer: null,
+    isLoading: false,
+    message: "",
+    dealerStatus: "idle",
+  },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(dealerRegistration.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+        state.dealerStatus = "loading";
+      })
+      .addCase(dealerRegistration.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.dealer = true;
+        state.dealerStatus = "succeeded";
+        state.message = action.payload.message;
+        state.dealer = action.payload.data;
+        console.log("payload", action.payload.data);
         //   state.token = action.payload.data.accessToken;
-        })
-        .addCase(dealerRegistration.rejected, (state, action) => {
-          state.isLoading = false;
+      })
+      .addCase(dealerRegistration.rejected, (state, action) => {
+        state.isLoading = false;
         //    state.dealerStatus ="failed"
-          // state.error = action.payload;
-        })
-       
-    },
-  });
+        // state.error = action.payload;
+      });
+  },
+});
 
-{/***************dealer linking with product *************************/}
+{
+  /***************dealer linking with product *************************/
+}
 
 export const dealerLinking = createAsyncThunk(
   "admin/dealerlinking",
   async (linkingData, thunkAPI) => {
     // Here you can make a request to your API to invalidate the token if necessary
     try {
+      console.log("%%%%%%%%%%%%%%%%%linkingData: ", linkingData);
+      // const linkingData1 = {
+      //   productId: "66f571be7052ce66e4da6d30",
+      //   dealerIds: ["66f561f07052ce66e4da6bf0", "66f562107052ce66e4da6bf7"],
+      //   units: 10,
+      //   availability: "Y",
+      //   status: "D",
+      // };
       let headersList = {
         Authorization: localStorage.getItem("admin-token"),
-    
       };
       let reqOptions = {
         url: "http://3.6.127.143/api/admin/dealer/link",
-        method:"POST",
+        method: "POST",
         headers: headersList,
         data: linkingData,
       };
 
       let response = await axios.request(reqOptions);
+      // console.log("~~~~~~~~~~~~~~~~~~~~response: ", response);
 
       const data = response;
 
-      console.log("dealer linked with product successfully",data);
+      console.log("dealer linked with product successfully", data);
 
       return response.data;
     } catch (error) {
@@ -98,45 +106,44 @@ export const dealerLinking = createAsyncThunk(
 );
 
 const dealerLinkSlice = createSlice({
+  name: "dealerLink",
+  initialState: {
+    token: null,
+    data: null,
+    dealerLinkLoading: false,
+    dealerLinkMsg: "",
+    dealerLinkStatus: "idle",
+    dealerLinkSuccess: false,
+  },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(dealerLinking.pending, (state) => {
+        state.dealerLinkLoading = true;
+        state.error = null;
+        state.dealerLinkStatus = "loading";
+      })
+      .addCase(dealerLinking.fulfilled, (state, action) => {
+        console.log("^^^^^^^^^^^^^^^^^^^^action.payload", action.payload);
+        state.dealerLinkLoading = false;
+        state.dealer = true;
+        state.dealerLinkStatus = "succeeded";
+        state.dealerLinkMsg = action.payload.message;
+        state.dealerLinkSuccess = action.payload.success;
+        state.data = action.payload.data;
+      })
+      .addCase(dealerLinking.rejected, (state, action) => {
+        state.dealerLinkLoading = false;
+        state.dealerLinkStatus = "failed";
+        state.dealerLinkSuccess = false;
+        state.dealerLinkMsg = action.payload?.message || "An error occurred";
+      });
+  },
+});
 
-    name: "dealerLink",
-    initialState: {
-      token: null,
-      data: null,
-      dealerLinkLoading: false,
-      dealerLinkMsg:"",
-      dealerLinkStatus: "idle",
-      dealerLinkSuccess:false
-    },
-    reducers: {},
-    extraReducers: (builder) => {
-      builder
-        .addCase(dealerLinking.pending, (state) => {
-          state.dealerLinkLoading = true;
-          state.error = null;
-           state.dealerLinkStatus ="loading"
-        })
-        .addCase(dealerLinking.fulfilled, (state, action) => {
-          state.dealerLinkLoading = false;
-          state.dealer = true;
-          state.dealerLinkStatus ="succeeded"
-          state.dealerLinkMsg = action.payload.message;
-          state.dealerLinkSuccess = action.payload.success;
-          state.data = action.payload.data;
-     
-        })
-        .addCase(dealerLinking.rejected, (state, action) => {
-          state.dealerLinkLoading = false;
-           state.dealerLinkStatus ="failed"
-           state.dealerLinkSuccess = action.payload.success;
-          // state.error = action.payload;
-        })
-       
-    },
-  });
-
-
-  {/*****************deleitng-dealer*******************************/}
+{
+  /*****************deleitng-dealer*******************************/
+}
 
 export const dealerDelete = createAsyncThunk(
   "admin/dealerlinking",
@@ -145,15 +152,13 @@ export const dealerDelete = createAsyncThunk(
     try {
       let headersList = {
         Authorization: localStorage.getItem("admin-token"),
-    
       };
       let reqOptions = {
         url: "http://3.6.127.143/api/admin/dealer/delete",
-        method:"DELETE",
+        method: "DELETE",
         headers: headersList,
-        data:{
-
-          dealerId:id
+        data: {
+          dealerId: id,
         },
       };
 
@@ -161,7 +166,7 @@ export const dealerDelete = createAsyncThunk(
 
       const data = response;
 
-      console.log("dealer deleted successfully----",data);
+      console.log("dealer deleted successfully----", data);
 
       return response.data;
     } catch (error) {
@@ -170,41 +175,40 @@ export const dealerDelete = createAsyncThunk(
   }
 );
 
-
 const dealerdeleteSlice = createSlice({
+  name: "dealerDelete",
+  initialState: {
+    deleteDealerLoading: false,
+    deleteDealerMsg: "",
+    deleteDealerStatus: "idle",
+  },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(dealerDelete.pending, (state) => {
+        state.deleteDealerLoading = true;
+        state.deleteDealerStatus = "loading";
+      })
+      .addCase(dealerDelete.fulfilled, (state, action) => {
+        state.deleteDealerLoading = false;
+        state.deleteDealerStatus = "succeeded";
+        state.deleteDealerMsg = action.payload.message;
 
-    name: "dealerDelete",
-    initialState: {
-      deleteDealerLoading: false,
-      deleteDealerMsg:"",
-      deleteDealerStatus: "idle",
-    },
-    reducers: {},
-    extraReducers: (builder) => {
-      builder
-        .addCase(dealerDelete.pending, (state) => {
-          state.deleteDealerLoading = true;
-           state.deleteDealerStatus ="loading"
-        })
-        .addCase(dealerDelete.fulfilled, (state, action) => {
-          state.deleteDealerLoading = false;
-           state.deleteDealerStatus ="succeeded"
-          state.deleteDealerMsg = action.payload.message;
-         
-          // console.log("payload",action.payload.data)
+        // console.log("payload",action.payload.data)
         //   state.token = action.payload.data.accessToken;
-        })
-        .addCase(dealerDelete.rejected, (state, action) => {
-          state.deleteDealerLoading = false;
-           state.deleteDealerStatus ="failed"
-           state.deleteDealerMsg = action.payload.message;
-          // state.error = action.payload;
-        })
-       
-    },
-  });
-  {/*****************deleitng-dealer*******************************/}
-  
-  export const  dealerDeleteReducer = dealerdeleteSlice.reducer;
-  export const  dealerAddReducer = dealerAddSlice.reducer;
-  export const  dealerLinkReducer = dealerLinkSlice.reducer;
+      })
+      .addCase(dealerDelete.rejected, (state, action) => {
+        state.deleteDealerLoading = false;
+        state.deleteDealerStatus = "failed";
+        state.deleteDealerMsg = action.payload.message;
+        // state.error = action.payload;
+      });
+  },
+});
+{
+  /*****************deleitng-dealer*******************************/
+}
+
+export const dealerDeleteReducer = dealerdeleteSlice.reducer;
+export const dealerAddReducer = dealerAddSlice.reducer;
+export const dealerLinkReducer = dealerLinkSlice.reducer;

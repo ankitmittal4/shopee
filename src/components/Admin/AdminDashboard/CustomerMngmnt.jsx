@@ -22,6 +22,8 @@ import {
 import { debounce } from "lodash";
 import { MdDeveloperBoard } from "react-icons/md";
 import point_icon from "..//..//./../Assets/point-icon.svg";
+import delete1 from "../../../Assets/delete.svg";
+import edit from "../../../Assets/edit.svg";
 
 // Sample data for countries and states
 const countryStateData = CuntrysData;
@@ -35,43 +37,15 @@ const validationSchema = Yup.object({
   pincode: Yup.string()
     .required("Required")
     .matches(/^[0-9]+$/, "Pincode must be only numbers"),
-  password: Yup.string().required("Required"),
-  countryCode: Yup.string()
-    .matches(/^\+[1-9]{1}[0-9]{1,3}$/, "Invalid country code")
-    .required("Required"),
   email: Yup.string().email("Invalid email").required("Required"),
   phoneNumber: Yup.string()
     .matches(/^[0-9]{10}$/, "Phone number must be 10 digits")
     .required("Required"),
-  alternatePhoneNumber: Yup.string()
-    .matches(/^[0-9]{10}$/, "Alternate phone number must be 10 digits")
-    .required("Required"),
-  pincode: Yup.string()
-    .matches(/^[0-9]+$/, "Pincode must be only numbers")
-    .required("Pincode is required"),
-  //   dateOfJoining: Yup.date().required("Required"),
   addressLine1: Yup.string().required("Required"),
   addressLine2: Yup.string(),
-  landmark: Yup.string().required("Required"),
-  city: Yup.string().required("Required"),
   country: Yup.string().required("Required"),
   state: Yup.string().required("Required"),
-  //   pincode: Yup.string().required("Required"),
-  geoLocationCode: Yup.string().required("Required"),
   status: Yup.string().required("Required"),
-  shopImage: Yup.mixed()
-    .required("Required")
-    .test(
-      "fileSize",
-      "File Size is too large",
-      (value) => !value || (value && value.size <= 1024 * 1024)
-    ) // 1MB
-    .test(
-      "fileFormat",
-      "Unsupported Format",
-      (value) =>
-        !value || (value && ["image/jpeg", "image/png"].includes(value.type))
-    ),
 });
 
 const CustomerManagements = () => {
@@ -257,488 +231,496 @@ const CustomerManagements = () => {
   };
 
   return (
-    // <div className="ml-72 p-4 font-custom">
-    //   {/* {toast.visible && (
-    //     <Toast message={toast.message} type={toast.type} onClose={closeToast} />
-    //   )} */}
-    //   {!showCustomer && (
-    //     <div className="flex justify-between items-center mb-4">
-    //       <div className="text-2xl font-medium flex gap-2">
-    //         <img src={box_iocn} alt="box icon" />
-    //         Customer Information
-    //       </div>
-    //       <div className="space-x-4">
-    //         <button
-    //           onClick={handleShowDealer}
-    //           className="bg-orange-400 text-white px-4 py-2 rounded-lg hover:bg-green-500"
-    //         >
-    //           Add Customer
-    //         </button>
-    //       </div>
-    //     </div>
-    //   )}
-    //   {showCustomer && (
-    //     <>
-    //       <div className="flex justify-between items-center mb-4">
-    //         <div className="text-2xl font-medium flex gap-2">
-    //           <img src={box_iocn} alt="box icon" />
-    //           Add Customer
-    //         </div>
-    //         <div className="space-x-4">
-    //           <button
-    //             // onClick={handleAddProduct}
-    //             className=" text-green-500 px-4 py-2 rounded "
-    //             onClick={handleCloseButton}
-    //           >
-    //             Close
-    //           </button>
-    //           <button
-    //             type="submit"
-    //             onClick={handleSubmit}
-    //             className="bg-orange-400 text-white px-4 py-2 rounded-lg hover:bg-green-500"
-    //           >
-    //             {/* <FaPlus className="inline-block mr-2" /> */}
-    //             {/* {dealerStatus === "loading" ? (
-    //             <Loader1 />
-    //           ) : ( */}
-    //           {customerEditLoading && <Loader1 />}
-    //             {customerForm.firstName ? "Edit Dealer" : "Add Dealer"}
-    //             {/* )} */}
-    //           </button>
-    //         </div>
-    //       </div>
-    //       <nav className="bg-zinc-100 rounded-full mb-6 w-fit">
-    //         <ul className="flex space-x-6 px-10">
-    //           {categories.map((category) => (
-    //             <li
-    //               key={category.id}
-    //               className={`relative px-4 flex flex-col justify-center items-center cursor-pointer ${
-    //                 selectedCategory === category.id
-    //                   ? "text-green-500"
-    //                   : "text-neutral-500"
-    //               }`}
-    //               onClick={() => handleCategoryClick(category.id)}
-    //             >
-    //               <p className="text-center py-4 font-semibold ">
-    //                 {category.label}
-    //               </p>
-    //               {selectedCategory === category.id && (
-    //                 <img
-    //                   src={point_icon}
-    //                   alt="Selected icon"
-    //                   className="absolute bottom-0"
-    //                 />
-    //               )}
-    //             </li>
-    //           ))}
-    //         </ul>
-    //       </nav>
-    //     </>
-    //   )}
-    //   {deletePopup && (
-    //     <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
-    //       <div className="bg-zinc-200 rounded-lg p-6 max-w-md mx-2 font-custom ">
-    //         <h2 className="text-xl font-semibold  mb-3 text-center">
-    //           Are you sure ?{" "}
-    //         </h2>
-    //         <h2 className="text-sm  mb-3 text-center">
-    //           You want to delete this customer ?{" "}
-    //         </h2>
-    //         <div className="flex justify-between">
-    //           <button
-    //             onClick={() => handleNoButton()}
-    //             className="bg-green-500 text-white px-4 py-1 rounded-md hover:bg-green-600 cursor-pointer"
-    //           >
-    //             No
-    //           </button>
-    //           <button
-    //             onClick={() => handleDeleteDealer()}
-    //             className="bg-red-500 text-white px-4 py-1 rounded-md hover:bg-red-600 cursor-pointer"
-    //           >
-    //             Delete
-    //           </button>
-    //         </div>
-    //       </div>
-    //     </div>
-    //   )}
+    <div className="ml-[20rem] p-3 pl-6 pr-3 font-custom bg-[#F0F0F0] min-h-svh">
+      {/* {toast.visible && (
+        <Toast message={toast.message} type={toast.type} onClose={closeToast} />
+      )} */}
+      {!showCustomer && (
+        <div className="flex justify-between items-center mb-4">
+          <div className="text-2xl font-medium flex gap-2">
+            <img src={box_iocn} alt="box icon" />
+            Customer List
+          </div>
+          <div className="space-x-4">
+            <button
+              onClick={handleShowDealer}
+              className="bg-[#A70024] text-white px-4 py-2 rounded-lg hover:bg-red-800"
+            >
+              Add Customer
+            </button>
+          </div>
+        </div>
+      )}
+      {showCustomer && (
+        <>
+          <div className="flex justify-between items-center mb-4">
+            <div className="text-2xl font-medium flex gap-2">
+              <img src={box_iocn} alt="box icon" />
+              Customer Details
+            </div>
+            <div className="space-x-4">
+              <button
+                // onClick={handleAddProduct}
+                className=" text-[#A70024] px-4 py-2 rounded "
+                onClick={handleCloseButton}
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                onClick={handleSubmit}
+                className="bg-[#A70024] text-white px-4 py-2 rounded-lg hover:bg-red-800"
+              >
+                {/* <FaPlus className="inline-block mr-2" /> */}
+                {/* {dealerStatus === "loading" ? (
+                <Loader1 />
+              ) : ( */}
+                {customerEditLoading && <Loader1 />}
+                {customerForm.firstName ? "Save" : "Save Changes"}
+                {/* )} */}
+              </button>
+            </div>
+          </div>
+          <nav className="bg-zinc-300 rounded-full mb-6 w-fit">
+            <ul className="flex space-x-6 px-10">
+              {categories.map((category) => (
+                <li
+                  key={category.id}
+                  className={`relative px-4 flex flex-col justify-center items-center cursor-pointer ${
+                    selectedCategory === category.id
+                      ? "text-[#A70024]"
+                      : "text-black"
+                  }`}
+                  onClick={() => handleCategoryClick(category.id)}
+                >
+                  <p className="text-center py-4 font-semibold ">
+                    {category.label}
+                  </p>
+                  {selectedCategory === category.id && (
+                    <img
+                      src={point_icon}
+                      alt="Selected icon"
+                      className="absolute bottom-0"
+                    />
+                  )}
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </>
+      )}
+      {deletePopup && (
+        <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
+          <div className="bg-zinc-200 rounded-lg p-6 max-w-md mx-2 font-custom ">
+            <h2 className="text-xl font-semibold  mb-3 text-center">
+              Are you sure{" "}
+            </h2>
+            <h2 className="text-sm  mb-3 text-center">
+              You want to delete this customer?{" "}
+            </h2>
+            <div className="flex justify-between">
+              <button
+                onClick={() => handleNoButton()}
+                className="bg-zinc-300 text-black px-6 py-2 rounded-md hover:bg-zinc-400 cursor-pointer"
+              >
+                No
+              </button>
+              <button
+                onClick={() => handleDeleteDealer()}
+                className="bg-red-800 text-white px-6 py-2 rounded-md hover:bg-red-700 cursor-pointer"
+              >
+                Yes
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
-    //   {showCustomer && selectedCategory === 1 && (
-    //     <form className="bg-white p-4 rounded-lg shadow space-y-4 mr-60">
-    //       {/* Dealer First Name and Dealer Last Name */}
-    //       <div className="grid grid-cols-1 md:grid-cols-2 gap-20">
-    //         <div>
-    //           <label className="block text-sm font-medium text-zinc-600">
-    //             Customer First Name
-    //           </label>
-    //           <input
-    //             type="text"
-    //             name="firstName"
-    //             value={values.firstName}
-    //             onChange={handleChange}
-    //             onBlur={handleBlur}
-    //             className="mt-1 block w-full border rounded-md px-2 py-2 text-gray-600 focus:outline-green-500"
-    //           />
-    //           {errors.firstName && touched.firstName && (
-    //             <p className="text-red-500 text-sm">{errors.firstName}</p>
-    //           )}
-    //         </div>
-    //         <div>
-    //           <label className="block text-sm font-medium text-zinc-600">
-    //             Customer Last Name
-    //           </label>
-    //           <input
-    //             type="text"
-    //             name="lastName"
-    //             value={values.lastName}
-    //             onChange={handleChange}
-    //             onBlur={handleBlur}
-    //             className="mt-1 block w-full border rounded-md px-2 py-2 text-gray-600 focus:outline-green-500"
-    //           />
-    //           {errors.lastName && touched.lastName && (
-    //             <p className="text-red-500 text-sm">{errors.lastName}</p>
-    //           )}
-    //         </div>
-    //       </div>
-    //       {/* Date of Birth and Gender */}
-    //       <div className="grid grid-cols-1 md:grid-cols-2 gap-20">
-    //         <div>
-    //           <label className="block text-sm font-medium text-zinc-600">
-    //             Date of Birth
-    //           </label>
-    //           <input
-    //             type="date"
-    //             name="dob"
-    //             value={values.dob}
-    //             onChange={handleChange}
-    //             onBlur={handleBlur}
-    //             className="mt-1 block w-full border rounded-md px-2 py-2 text-gray-600 focus:outline-green-500"
-    //           />
-    //           {errors.dob && touched.dob && (
-    //             <p className="text-red-500 text-sm">{errors.dob}</p>
-    //           )}
-    //         </div>
-    //         <div>
-    //           <label className="block text-sm font-medium text-zinc-600">
-    //             Gender
-    //           </label>
-    //           <select
-    //             name="gender"
-    //             value={values.gender}
-    //             onChange={handleChange}
-    //             onBlur={handleBlur}
-    //             className="mt-1 block w-full rounded-md px-2 py-2 text-gray-600 border border-zinc-200 focus:border-green-500 focus:ring-green-500 outline-none"
-    //           >
-    //             <option value="">Select Gender</option>
-    //             <option value="M">Male</option>
-    //             <option value="F">Female</option>
-    //             <option value="other">Other</option>
-    //           </select>
-    //           {errors.gender && touched.gender && (
-    //             <p className="text-red-500 text-sm">{errors.gender}</p>
-    //           )}
-    //         </div>
-    //       </div>
-    //       {/* Password and PIN */}
-    //       <div className="grid grid-cols-1 md:grid-cols-2 gap-20">
-    //         <div>
-    //           <label className="block text-sm font-medium text-zinc-600">
-    //             Occupation
-    //           </label>
-    //           <input
-    //             type="text"
-    //             name="occupation"
-    //             value={values.occupation}
-    //             onChange={handleChange}
-    //             onBlur={handleBlur}
-    //             className="mt-1 block w-full border rounded-md px-2 py-2 text-gray-600 focus:outline-green-500"
-    //           />
-    //           {errors.occupation && touched.occupation && (
-    //             <p className="text-red-500 text-sm">{errors.occupation}</p>
-    //           )}
-    //         </div>
-    //         <div>
-    //           <label className="block text-sm font-medium text-zinc-600">
-    //             Dealer Shop Pincode
-    //           </label>
-    //           <input
-    //             placeholder=""
-    //             type="text"
-    //             name="dealerShopPincode"
-    //             value={values.countryCode}
-    //             disabled
-    //             // onChange={handleChange}
-    //             // onBlur={handleBlur}
-    //             className="mt-1 block w-full border rounded-md px-2 py-2 text-gray-600 focus:outline-green-500"
-    //           />
-    //           {/* {errors.countryCode && touched.countryCode && (
-    //             <p className="text-red-500 text-sm">{errors.countryCode}</p>
-    //           )} */}
-    //         </div>
-    //       </div>
+      {showCustomer && selectedCategory === 1 && (
+        <form className="p-4 rounded-lg space-y-4 mr-60">
+          {/* Dealer First Name and Dealer Last Name */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-20">
+            <div>
+              <label className="block text-sm font-medium text-zinc-600">
+                Customer First Name
+              </label>
+              <input
+                type="text"
+                name="firstName"
+                value={values.firstName}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                className="mt-1 block w-full border rounded-md px-2 py-2 text-gray-600 focus:outline-blue-900"
+              />
+              {errors.firstName && touched.firstName && (
+                <p className="text-red-500 text-sm">{errors.firstName}</p>
+              )}
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-zinc-600">
+                Customer Last Name
+              </label>
+              <input
+                type="text"
+                name="lastName"
+                value={values.lastName}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                className="mt-1 block w-full border rounded-md px-2 py-2 text-gray-600 focus:outline-blue-900"
+              />
+              {errors.lastName && touched.lastName && (
+                <p className="text-red-500 text-sm">{errors.lastName}</p>
+              )}
+            </div>
+          </div>
+          {/* Date of Birth and Gender */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-20">
+            <div>
+              <label className="block text-sm font-medium text-zinc-600">
+                Date of Birth
+              </label>
+              <input
+                type="date"
+                name="dob"
+                value={values.dob}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                className="mt-1 block w-full border rounded-md px-2 py-2 text-gray-600 focus:outline-blue-900"
+              />
+              {errors.dob && touched.dob && (
+                <p className="text-red-500 text-sm">{errors.dob}</p>
+              )}
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-zinc-600">
+                Gender
+              </label>
+              <select
+                name="gender"
+                value={values.gender}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                className="mt-1 block w-full rounded-md px-2 py-2 text-gray-600 border border-zinc-200 focus:border-blue-900 focus:ring-blue-900 outline-none"
+              >
+                <option value="">Select Gender</option>
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+                <option value="other">Other</option>
+              </select>
+              {errors.gender && touched.gender && (
+                <p className="text-red-500 text-sm">{errors.gender}</p>
+              )}
+            </div>
+          </div>
+          {/* Password and PIN */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-20">
+            <div>
+              <label className="block text-sm font-medium text-zinc-600">
+                Occupation
+              </label>
+              <input
+                type="text"
+                name="occupation"
+                value={values.occupation}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                className="mt-1 block w-full border rounded-md px-2 py-2 text-gray-600 focus:outline-blue-900"
+              />
+              {errors.occupation && touched.occupation && (
+                <p className="text-red-500 text-sm">{errors.occupation}</p>
+              )}
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-zinc-600">
+                Dealer Shop Pincode
+              </label>
+              <input
+                placeholder=""
+                type="text"
+                name="dealerShopPincode"
+                value={values.dealerShopPincode}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                className="mt-1 block w-full border rounded-md px-2 py-2 text-gray-600 focus:outline-blue-900"
+              />
+              {errors.countryCode && touched.countryCode && (
+                <p className="text-red-500 text-sm">{errors.countryCode}</p>
+              )}
+            </div>
+          </div>
 
-    //       {/* Email and Phone Number */}
-    //       <div className="grid grid-cols-1 md:grid-cols-2 gap-20">
-    //         <div>
-    //           <label className="block text-sm font-medium text-zinc-600">
-    //             Email
-    //           </label>
-    //           <input
-    //             type="email"
-    //             name="email"
-    //             value={values.email}
-    //             onChange={handleChange}
-    //             onBlur={handleBlur}
-    //             className="mt-1 block w-full border rounded-md px-2 py-2 text-gray-600 focus:outline-green-500"
-    //           />
-    //           {errors.email && touched.email && (
-    //             <p className="text-red-500 text-sm">{errors.email}</p>
-    //           )}
-    //         </div>
-    //         <div>
-    //           <label className="block text-sm font-medium text-zinc-600">
-    //             Phone Number
-    //           </label>
-    //           <input
-    //             type="text"
-    //             name="phoneNumber"
-    //             value={values.phoneNumber}
-    //             onChange={handleChange}
-    //             onBlur={handleBlur}
-    //             className="mt-1 block w-full border rounded-md px-2 py-2 text-gray-600 focus:outline-green-500"
-    //           />
-    //           {errors.phoneNumber && touched.phoneNumber && (
-    //             <p className="text-red-500 text-sm">{errors.phoneNumber}</p>
-    //           )}
-    //         </div>
-    //       </div>
+          {/* Email and Phone Number */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-20">
+            <div>
+              <label className="block text-sm font-medium text-zinc-600">
+                Email
+              </label>
+              <input
+                type="email"
+                name="email"
+                value={values.email}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                className="mt-1 block w-full border rounded-md px-2 py-2 text-gray-600 focus:outline-blue-900"
+              />
+              {errors.email && touched.email && (
+                <p className="text-red-500 text-sm">{errors.email}</p>
+              )}
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-zinc-600">
+                Phone Number
+              </label>
+              <input
+                type="text"
+                name="phoneNumber"
+                value={values.phoneNumber}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                className="mt-1 block w-full border rounded-md px-2 py-2 text-gray-600 focus:outline-blue-900"
+              />
+              {errors.phoneNumber && touched.phoneNumber && (
+                <p className="text-red-500 text-sm">{errors.phoneNumber}</p>
+              )}
+            </div>
+          </div>
 
-    //       {/* Date of Joining and Address 1 */}
-    //       <div className="grid grid-cols-1 md:grid-cols-2 gap-20">
-    //         <div>
-    //           <label className="block text-sm font-medium text-zinc-600">
-    //             Address 1
-    //           </label>
-    //           <input
-    //             type="text"
-    //             name="addressLine1"
-    //             value={values.addressLine1}
-    //             onChange={handleChange}
-    //             onBlur={handleBlur}
-    //             className="mt-1 block w-full border rounded-md px-2 py-2 text-gray-600 focus:outline-green-500"
-    //           />
-    //           {errors.addressLine1 && touched.addressLine1 && (
-    //             <p className="text-red-500 text-sm">{errors.addressLine1}</p>
-    //           )}
-    //         </div>
-    //         <div>
-    //           <label className="block text-sm font-medium text-zinc-600">
-    //             Address 2
-    //           </label>
-    //           <input
-    //             type="text"
-    //             name="addressLine2"
-    //             value={values.addressLine2}
-    //             onChange={handleChange}
-    //             onBlur={handleBlur}
-    //             className="mt-1 block w-full border rounded-md px-2 py-2 text-gray-600 focus:outline-green-500"
-    //           />
-    //           {errors.addressLine2 && touched.addressLine2 && (
-    //             <p className="text-red-500 text-sm">{errors.addressLine2}</p>
-    //           )}
-    //         </div>
-    //       </div>
+          {/* Date of Joining and Address 1 */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-20">
+            <div>
+              <label className="block text-sm font-medium text-zinc-600">
+                Address 1
+              </label>
+              <input
+                type="text"
+                name="addressLine1"
+                value={values.addressLine1}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                className="mt-1 block w-full border rounded-md px-2 py-2 text-gray-600 focus:outline-blue-900"
+              />
+              {errors.addressLine1 && touched.addressLine1 && (
+                <p className="text-red-500 text-sm">{errors.addressLine1}</p>
+              )}
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-zinc-600">
+                Address 2
+              </label>
+              <input
+                type="text"
+                name="addressLine2"
+                value={values.addressLine2}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                className="mt-1 block w-full border rounded-md px-2 py-2 text-gray-600 focus:outline-blue-900"
+              />
+              {errors.addressLine2 && touched.addressLine2 && (
+                <p className="text-red-500 text-sm">{errors.addressLine2}</p>
+              )}
+            </div>
+          </div>
 
-    //       {/* City and Country */}
-    //       <div className="grid grid-cols-1 md:grid-cols-2 gap-20">
-    //         <div>
-    //           <label className="block text-sm font-medium text-zinc-600">
-    //             Country
-    //           </label>
-    //           <select
-    //             name="country"
-    //             value={values.country}
-    //             onChange={handleCountryChange}
-    //             onBlur={handleBlur}
-    //             className="mt-1 block w-full rounded-md px-2 py-2 text-gray-600 border border-zinc-200 focus:border-green-500 focus:ring-green-500 outline-none"
-    //           >
-    //             <option value="">Select Country</option>
-    //             {Object.keys(countryStateData).map((country) => (
-    //               <option key={country} value={country}>
-    //                 {country}
-    //               </option>
-    //             ))}
-    //           </select>
-    //           {errors.country && touched.country && (
-    //             <p className="text-red-500 text-sm">{errors.country}</p>
-    //           )}
-    //         </div>
-    //         <div>
-    //           <label className="block text-sm font-medium text-zinc-600">
-    //             State
-    //           </label>
-    //           <select
-    //             name="state"
-    //             value={values.state}
-    //             onChange={handleChange}
-    //             onBlur={handleBlur}
-    //             className="mt-1 block w-full rounded-md px-2 py-2 text-gray-600 border border-zinc-200 focus:border-green-500 focus:ring-green-500 outline-none"
-    //           >
-    //             <option value="">Select State</option>
-    //             {states.map((state) => (
-    //               <option key={state} value={state}>
-    //                 {state}
-    //               </option>
-    //             ))}
-    //           </select>
-    //           {errors.state && touched.state && (
-    //             <p className="text-red-500 text-sm">{errors.state}</p>
-    //           )}
-    //         </div>
-    //       </div>
+          {/* City and Country */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-20">
+            <div>
+              <label className="block text-sm font-medium text-zinc-600">
+                Country
+              </label>
+              <select
+                name="country"
+                value={values.country}
+                onChange={handleCountryChange}
+                onBlur={handleBlur}
+                className="mt-1 block w-full rounded-md px-2 py-2 text-gray-600 border border-zinc-200 focus:border-blue-900 focus:ring-blue-900 outline-none"
+              >
+                <option value="">Select Country</option>
+                {Object.keys(countryStateData).map((country) => (
+                  <option key={country} value={country}>
+                    {country}
+                  </option>
+                ))}
+              </select>
+              {errors.country && touched.country && (
+                <p className="text-red-500 text-sm">{errors.country}</p>
+              )}
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-zinc-600">
+                State
+              </label>
+              <select
+                name="state"
+                value={values.state}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                className="mt-1 block w-full rounded-md px-2 py-2 text-gray-600 border border-zinc-200 focus:border-blue-900 focus:ring-blue-900 outline-none"
+              >
+                <option value="">Select State</option>
+                {states.map((state) => (
+                  <option key={state} value={state}>
+                    {state}
+                  </option>
+                ))}
+              </select>
+              {errors.state && touched.state && (
+                <p className="text-red-500 text-sm">{errors.state}</p>
+              )}
+            </div>
+          </div>
 
-    //       {/* State and Pincode */}
+          {/* State and Pincode */}
 
-    //       {/* <div>
-    //         <label className="block text-sm font-medium text-zinc-600">
-    //           Pincode
-    //         </label>
-    //         <input
-    //           type="text"
-    //           name="pincode"
-    //           value={values.pincode}
-    //           onChange={handleChange}
-    //           onBlur={handleBlur}
-    //           className="mt-1 block w-full border rounded-md px-2 py-2 text-gray-600 focus:outline-green-500"
-    //         />
-    //         {errors.pincode && touched.pincode && (
-    //           <p className="text-red-500 text-sm">{errors.pincode}</p>
-    //         )}
-    //       </div> */}
+          {/* <div>
+            <label className="block text-sm font-medium text-zinc-600">
+              Pincode
+            </label>
+            <input
+              type="text"
+              name="pincode"
+              value={values.pincode}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              className="mt-1 block w-full border rounded-md px-2 py-2 text-gray-600 focus:outline-blue-900"
+            />
+            {errors.pincode && touched.pincode && (
+              <p className="text-red-500 text-sm">{errors.pincode}</p>
+            )}
+          </div> */}
 
-    //       {/* Status */}
-    //       <div className="flex items-center gap-20 mt-4">
-    //         <label className="block text-sm font-medium text-zinc-600">
-    //           Status
-    //         </label>
-    //         <div className="flex items-center gap-4">
-    //           <label className="inline-flex items-center">
-    //             <input
-    //               type="radio"
-    //               name="status"
-    //               value="A"
-    //               onChange={handleChange}
-    //               className="form-radio"
-    //             />
-    //             <span className="ml-2">Active</span>
-    //           </label>
-    //           <label className="inline-flex items-center">
-    //             <input
-    //               type="radio"
-    //               name="status"
-    //               value="D"
-    //               onChange={handleChange}
-    //               className="form-radio"
-    //             />
-    //             <span className="ml-2">Inactive</span>
-    //           </label>
-    //         </div>
-    //         {errors.status && touched.status && (
-    //           <p className="text-red-500 text-sm">{errors.status}</p>
-    //         )}
-    //       </div>
-    //     </form>
-    //   )}
-    //   {selectedCategory === 2 && showCustomer && <div>order Information</div>}
-    //   {!showCustomer &&(<div className="bg-white rounded-lg shadow overflow-x-auto">
-    //     <table className="min-w-full divide-y divide-gray-200 bg-neutral-200">
-    //       <thead>
-    //         <tr>
-    //           {/* <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-    //             <input type="checkbox" name="" id="" />
-    //           </th> */}
-    //           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-    //             No
-    //           </th>
-    //           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-    //             Id
-    //           </th>
-    //           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-    //             Name & Phone No
-    //           </th>
-    //           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-    //             City
-    //           </th>
-    //           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-    //             Pincode
-    //           </th>
-    //           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-    //             Status
-    //           </th>
-    //           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-    //             Action
-    //           </th>
-    //         </tr>
-    //       </thead>
-    //       <tbody className="bg-white divide-y divide-gray-200">
-    //         {customers.map((customer, index) => (
-    //           <tr key={customer._id}>
-    //             {/* <td className="px-6 py-4 whitespace-nowrap outline-none bg-transparent">
-    //               <input type="checkbox" name="" id="" />
-    //             </td> */}
+          {/* Status */}
+          <div className="flex items-center gap-20 mt-4">
+            <label className="block text-sm font-medium text-zinc-600">
+              Status
+            </label>
+            <div className="flex items-center gap-4">
+              <label className="inline-flex items-center">
+                <input
+                  type="radio"
+                  name="status"
+                  value="A"
+                  onChange={handleChange}
+                  className="form-radio"
+                />
+                <span className="ml-2">Active</span>
+              </label>
+              <label className="inline-flex items-center">
+                <input
+                  type="radio"
+                  name="status"
+                  value="D"
+                  onChange={handleChange}
+                  className="form-radio"
+                />
+                <span className="ml-2">Inactive</span>
+              </label>
+            </div>
+            {errors.status && touched.status && (
+              <p className="text-red-500 text-sm">{errors.status}</p>
+            )}
+          </div>
+        </form>
+      )}
+      {selectedCategory === 2 && showCustomer && <div>order Info</div>}
+      {!showCustomer && (
+        <div className=" rounded-lg shadow overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200 bg-neutral-200">
+            <thead className="bg-[#5C5C5C]">
+              <tr>
+                {/* <th className="px-6 py-3 text-left text-xs font-bold text-white tracking-wider">
+                <input type="checkbox" name="" id="" />
+              </th> */}
+                <th className="px-6 py-3 text-left text-xs font-bold text-white tracking-wider">
+                  No
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-bold text-white tracking-wider">
+                  Id
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-bold text-white tracking-wider">
+                  Name & Phone No
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-bold text-white tracking-wider">
+                  City
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-bold text-white tracking-wider">
+                  Pincode
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-bold text-white tracking-wider">
+                  Status
+                </th>
+                <th className="px-12 py-3 text-left text-xs font-bold text-white tracking-wider">
+                  Action
+                </th>
+              </tr>
+            </thead>
+            <tbody className=" divide-y divide-gray-200">
+              {customers.map((customer, index) => (
+                <tr
+                  key={customer._id}
+                  className={index % 2 === 0 ? "" : "bg-[#F0F0F0]"}
+                >
+                  {/* <td className="px-6 py-4 whitespace-nowrap outline-none bg-transparent">
+                  <input type="checkbox" name="" id="" />
+                </td> */}
 
-    //             <td className="px-6 py-4 whitespace-nowrap">
-    //               {index + 1 + (currentPage - 1) * 10}
-    //             </td>
-    //             <td className="px-6 py-4 whitespace-nowrap">
-    //               {customer._id.slice(0, 6)}
-    //             </td>
-    //             <td className="px-6 py-4 ">
-    //               {customer.firstName} {customer.lastName}{" "}
-    //               {customer.phoneNumber}
-    //             </td>
-    //             <td className="px-6 py-4 ">city</td>
-    //             <td className="px-6 py-4 ">pincode</td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {index + 1 + (currentPage - 1) * 10}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {customer.customerId}
+                  </td>
+                  <td className="px-6 py-4 ">
+                    {customer.firstName} {customer.lastName}
+                    {<br />}
+                    {customer.phoneNumber}
+                  </td>
+                  <td className="px-6 py-4 ">{customer.city}</td>
+                  <td className="px-6 py-4 ">{customer.pincode}</td>
 
-    //             <td className="px-6 py-4 whitespace-nowrap">
-    //               <span
-    //                 className={`text-${
-    //                   customer.status === "A" ? "green" : "red"
-    //                 }-500`}
-    //               >
-    //                 {customer.status === "A" ? <p>Active</p> : <p>Inative</p>}
-    //               </span>
-    //             </td>
-    //             <td className="px-6 py-4 whitespace-nowrap">
-    //               <button
-    //                 onClick={() => handleEditCustomer(customer)}
-    //                 className="text-blue-500 mr-2"
-    //               >
-    //                 <FaEdit />
-    //               </button>
-    //               <button
-    //                 onClick={() => handleDeleteButton(customer._id)}
-    //                 className="text-red-500"
-    //               >
-    //                 <FaTrash />
-    //               </button>
-    //             </td>
-    //           </tr>
-    //         ))}
-    //       </tbody>
-    //     </table>
-    //     {customerListStatus === "succeeded" && (
-    //       <Pagination
-    //         totalProducts={customerList.data.total}
-    //         productsPerPage={customerList.data.limit}
-    //         onPageChange={handlePageChange}
-    //         currentPage={currentPage}
-    //       />
-    //     )}
-    //   </div>)}
-    // </div>
-    <>
-      <div className="ml-72 p-4">Customer</div>
-    </>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span
+                      className={`text-${
+                        customer.status === "A" ? "green" : "red"
+                      }-500`}
+                    >
+                      {customer.status === "A" ? (
+                        <p>Active</p>
+                      ) : (
+                        <p>DeActive</p>
+                      )}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <button
+                      onClick={() => handleEditCustomer(customer)}
+                      className="text-blue-500 mr-2"
+                    >
+                      <img src={edit} alt="" className="h-7 w-10" />
+                    </button>
+                    <button
+                      onClick={() => {
+                        handleDeleteButton(customer._id);
+                      }}
+                      className="text-red-500"
+                    >
+                      <img src={delete1} alt="" className="h-7 w-10" />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {customerListStatus === "succeeded" && (
+            <Pagination
+              totalProducts={customerList.data.total}
+              productsPerPage={customerList.data.limit}
+              onPageChange={handlePageChange}
+              currentPage={currentPage}
+            />
+          )}
+        </div>
+      )}
+    </div>
   );
 };
 

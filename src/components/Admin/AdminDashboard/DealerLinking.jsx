@@ -83,7 +83,7 @@ function DealerLinking({ productId }) {
         selectedOptions.some((option) => dealer._id === option.value)
       );
       setFilteredDealers(filteredDealers);
-      console.log("Selected Dealers:", selectedOptions);
+      // console.log("Selected Dealers:", selectedOptions);
     } else {
       setFilteredDealers(dealers);
     }
@@ -111,25 +111,39 @@ function DealerLinking({ productId }) {
   const [selectedDealerIds, setSelectedDealerIds] = useState([]);
 
   // Toggle selection of all dealers
-  const handleSelectAll = (e) => {
-    if (e.target.checked) {
-      // Select all dealers
-      const allDealerIds = filteredDealers.map((dealer) => dealer._id);
-      setSelectedDealerIds(allDealerIds);
-    } else {
-      // Deselect all dealers
-      setSelectedDealerIds([]);
-    }
-  };
+  // const handleSelectAll = (e) => {
+  //   if (e.target.checked) {
+  //     // Select all dealers
+  //     const allDealerIds = filteredDealers.map((dealer) => dealer._id);
+  //     setSelectedDealerIds(allDealerIds);
+  //   } else {
+  //     // Deselect all dealers
+  //     setSelectedDealerIds([]);
+  //   }
+  // };
 
   // Toggle selection of a single dealer
-  const handleSelectDealer = (e, dealerId) => {
-    if (e.target.checked) {
-      setSelectedDealerIds([...selectedDealerIds, dealerId]);
-    } else {
-      setSelectedDealerIds(selectedDealerIds.filter((id) => id !== dealerId));
-    }
+  const handleSelectDealer = (dealerId) => {
+    // console.log("@@@@@@@@@@@@@@@@dealer id: ", dealerId);
+
+    // Use functional form of state update to avoid stale state issue
+    setSelectedDealerIds((prevSelectedDealerIds) => {
+      // const updatedDealerIds = [...prevSelectedDealerIds, dealerId];
+      const updatedDealerIds = [dealerId];
+      // console.log(
+      //   "**************************selectedDealerIds (inside update): ",
+      //   updatedDealerIds
+      // );
+
+      // Call handleAddDealer here, passing updatedDealerIds as an argument
+      handleAddDealer(updatedDealerIds);
+      return updatedDealerIds;
+    });
   };
+
+  useEffect(() => {
+    // console.log("Updated selectedDealerIds: ", selectedDealerIds);
+  }, [selectedDealerIds]);
 
   // Log the selected dealer IDs to the console
   // console.log("Selected Dealer IDs:", selectedDealerIds);
@@ -160,43 +174,25 @@ function DealerLinking({ productId }) {
     }
   };
 
-  const handleAddDealer = async () => {
-    // You can handle the dealer addition logic here
+  const handleAddDealer = async (updatedDealerIds) => {
+    // console.log(
+    //   "++++++++++++++++++++++++++selectedDealerIds passed:",
+    //   updatedDealerIds
+    // );
 
     try {
-      // Validate the input using Yup
-      await validationSchema.validate({ units: units });
-      setError("");
-
-      // Proceed with form submission logic
       const linkingData = {
         productId: productId,
-        dealerIds: selectedDealerIds,
-        status: "Y",
+        dealerIds: updatedDealerIds, // Use updated dealer IDs here
+        status: "A",
         availability: "Y",
-        units: units,
+        units: 10,
       };
-      setLoading(true);
+
+      // console.log("~~~~~~~~~~~~~~~~~~~~linking data: ", linkingData);
       await dispatch(dealerLinking(linkingData));
-      setSelectedDealerIds([]);
-      // setShowPopup(false);
-      setUnits(null);
 
-      console.log(dealerLinkSuccess);
-
-      // Simulate an API call with a timeout
-      setTimeout(() => {
-        setLoading(false);
-        setSuccess(true);
-        setAddDealerMsg(dealerLinkMsg);
-
-        // Hide the popup after showing success message for 2 seconds
-        setTimeout(() => {
-          setSuccess(false);
-          setShowPopup(false);
-          setAddDealerMsg("");
-        }, 2000);
-      }, 2000);
+      // setSelectedDealerIds([]); // Clear after operation
     } catch (validationError) {
       setError(validationError.message);
     }
@@ -210,196 +206,205 @@ function DealerLinking({ productId }) {
 
   // console.log(dealerLinkSuccess)
   return (
-    // <div className="font-custom">
-    //   {showPopup && (
-    //     <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
-    //       <div className="bg-zinc-200 rounded-lg p-6   max-w-md mx-4 ">
-    //         {!success && !loading && (
-    //           <>
-    //             <h2 className="text-xl font-semibold font-custom text-center  mb-4">
-    //               Add Number Of Units
-    //             </h2>
-    //             <input
-    //               required
-    //               type="text"
-    //               placeholder="Enter Number Of Units"
-    //               value={units}
-    //               onChange={(e) => setUnits(e.target.value)}
-    //               className="w-full border border-gray-300 rounded-md px-3 py-2 mb-4 outline-none hover:border-orange-500 bg-transparent"
-    //             />
-    //             {error && <p className="text-red-500 mb-2 text-sm">{error}</p>}
-    //             <div className="flex justify-between">
-    //               <button
-    //                 onClick={handleCancelButton}
-    //                 className=" text-red-500 px-3 py-2 rounded-md"
-    //               >
-    //                 Cancel
-    //               </button>
-    //               <button
-    //                 onClick={handleAddDealer}
-    //                 className="bg-green-500 text-white px-3 py-2 rounded-md"
-    //               >
-    //                 Add Dealer
-    //               </button>
-    //             </div>
-    //           </>
-    //         )}
-    //         {loading && (
-    //           <div className="flex justify-center items-center">
-    //             <Loader1 />
-    //           </div>
-    //         )}
+    <div className="font-custom">
+      {showPopup && (
+        <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
+          <div className="bg-zinc-200 rounded-lg p-6   max-w-md mx-4 ">
+            {!success && !loading && (
+              <>
+                {/* <h2 className="text-xl font-semibold font-custom text-center  mb-4">
+                  Add Number Of Units
+                </h2>
+                <input
+                  required
+                  type="text"
+                  placeholder="Enter Number Of Units"
+                  value={units}
+                  onChange={(e) => setUnits(e.target.value)}
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 mb-4 outline-none hover:border-blue-900 bg-transparent"
+                />
+                {error && <p className="text-red-500 mb-2 text-sm">{error}</p>}
+                <div className="flex justify-between">
+                  <button
+                    onClick={handleCancelButton}
+                    className=" text-red-500 px-3 py-2 rounded-md"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleAddDealer}
+                    className="bg-[#A70024] hover:bg-red-700 text-white px-3 py-2 rounded-md"
+                  >
+                    Add Dealer
+                  </button>
+                </div> */}
+              </>
+            )}
+            {loading && (
+              <div className="flex justify-center items-center">
+                <Loader1 />
+              </div>
+            )}
 
-    //         {success && (
-    //           <div className="text-center">
-    //             <h2 className="text-xl font-semibold mb-4">{addDealerMsg}</h2>
-    //             <p>The product has been linked with dealer.</p>
-    //           </div>
-    //         )}
-    //       </div>
-    //     </div>
-    //   )}
+            {success && (
+              <div className="text-center">
+                <h2 className="text-xl font-semibold mb-4">{addDealerMsg}</h2>
+                <p>The product has been linked with dealer.</p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
-    //   <div className="flex justify-between items-center mb-4">
-    //     <div className="mb-3 font-medium flex gap-2">
-    //       <div className="rounded-full min-w-12 ">
-    //         <Select
-    //           isMulti
-    //           options={dealerOptions}
-    //           value={selectedOptions}
-    //           onChange={handleChangeSearch}
-    //           className="basic-multi-select text-sm"
-    //           classNamePrefix="select"
-    //           placeholder="Search by ID or Phone Number..."
-    //           styles={{
-    //             control: (baseStyles, state) => ({
-    //               ...baseStyles,
+      <div className="flex justify-between items-center mb-4">
+        <div className="mb-3 flex gap-2">
+          {/* <div className="rounded-full min-w-12 ">
+            <Select
+              isMulti
+              options={dealerOptions}
+              value={selectedOptions}
+              onChange={handleChangeSearch}
+              className="basic-multi-select text-sm"
+              classNamePrefix="select"
+              placeholder="Search by ID or Phone Number..."
+              styles={{
+                control: (baseStyles, state) => ({
+                  ...baseStyles,
 
-    //               borderRadius: 18,
-    //               minWidth: 200,
-    //             }),
-    //           }}
-    //         />
-    //       </div>
+                  borderRadius: 18,
+                  minWidth: 200,
+                }),
+              }}
+            />
+          </div> */}
 
-    //       {/* <button onClick={handleClear} className=" text-xl hover:scale-125">
-    //         clear
-    //       </button> */}
-    //       <button onClick={handleSearch} className=" text-xl hover:scale-125">
-    //         <CiSearch />
-    //       </button>
-    //     </div>
-    //     <div className="space-x-4">
-    //       <button
-    //         className="bg-orange-400 text-white px-4 py-2 rounded-lg hover:bg-green-500"
-    //         onClick={() => handleButtonClick()}
-    //       >
-    //         Add Dealer
-    //       </button>
-    //     </div>
-    //   </div>
-    //   <div className="bg-white rounded-lg shadow overflow-x-auto">
-    //     <table className="min-w-full divide-y divide-gray-200 bg-neutral-200">
-    //       <thead>
-    //         <tr>
-    //           <th className="px-6 py-3 text-left">
-    //             <input
-    //               type="checkbox"
-    //               onChange={handleSelectAll}
-    //               checked={selectedDealerIds.length === filteredDealers.length}
-    //             />
-    //           </th>
-    //           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-    //             No
-    //           </th>
-    //           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-    //             Id
-    //           </th>
-    //           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-    //             Name & Phone No
-    //           </th>
-    //           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-    //             Address
-    //           </th>
-    //           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-    //             Serviceable Pincode
-    //           </th>
-    //           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-    //             Qty
-    //           </th>
-    //           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-    //             Status
-    //           </th>
-    //           {/* <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-    //             Action
-    //           </th> */}
-    //         </tr>
-    //       </thead>
-    //       <tbody className="bg-white divide-y divide-gray-200">
-    //         {filteredDealers.map((dealer, index) => (
-    //           <tr key={dealer._id}>
-    //             <td className="px-6 py-3">
-    //               <input
-    //                 type="checkbox"
-    //                 onChange={(e) => handleSelectDealer(e, dealer._id)}
-    //                 checked={selectedDealerIds.includes(dealer._id)}
-    //               />
-    //             </td>
+          {/* <button onClick={handleClear} className=" text-xl hover:scale-125">
+            clear
+          </button> */}
+          {/* <button onClick={handleSearch} className=" text-xl hover:scale-125">
+            <CiSearch />
+          </button> */}
+        </div>
+        <div className="space-x-4">
+          <button
+            className="bg-[#A70024] hover:bg-red-700 text-white px-4 py-2 rounded-lg "
+            onClick={() => handleAddDealer()}
+          >
+            Add Dealer
+          </button>
+        </div>
+      </div>
+      <div className="bg-white rounded-lg shadow overflow-x-auto">
+        <table className="min-w-full divide-y divide-gray-200 bg-neutral-200">
+          <thead className="bg-[#5C5C5C]">
+            <tr>
+              <th className="px-6 py-3 text-left">
+                {/* <input
+                  type="checkbox"
+                  onChange={handleSelectAll}
+                  checked={selectedDealerIds.length === filteredDealers.length}
+                /> */}
+              </th>
+              <th className="px-6 py-3 text-left text-xs text-white font-bold tracking-wider">
+                No
+              </th>
+              <th className="px-6 py-3 text-left text-xs text-white font-bold tracking-wider">
+                Id
+              </th>
+              <th className="px-6 py-3 text-left text-xs text-white font-bold tracking-wider">
+                Name & Phone No
+              </th>
+              <th className="px-6 py-3 text-left text-xs text-white font-bold tracking-wider">
+                Address
+              </th>
+              <th className="px-6 py-3 text-left text-xs text-white font-bold tracking-wider">
+                Serviceable Pincode
+              </th>
+              <th className="px-6 py-3 text-left text-xs text-white font-bold tracking-wider">
+                Qty
+              </th>
+              <th className="px-6 py-3 text-left text-xs text-white font-bold tracking-wider">
+                Status
+              </th>
+              {/* <th className="px-6 py-3 text-left text-xs text-white font-bold tracking-wider">
+                Action
+              </th> */}
+            </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200">
+            {filteredDealers.map((dealer, index) => (
+              <tr key={dealer._id}>
+                <td className="px-6 py-3">
+                  {/* <input
+                    type="checkbox"
+                    onChange={(e) => handleSelectDealer(e, dealer._id)}
+                    checked={selectedDealerIds.includes(dealer._id)}
+                  /> */}
+                  <button
+                    className="bg-[#A70024] hover:bg-red-700 text-white px-2 py-2 rounded-lg w-28"
+                    onClick={() => handleSelectDealer(dealer._id)}
+                  >
+                    Add Dealer
+                  </button>
+                </td>
 
-    //             <td className="px-6 py-4 whitespace-nowrap">{index + 1 + (currentPage - 1) * 10}</td>
-    //             <td className="px-6 py-4 whitespace-nowrap">
-    //               {dealer._id.slice(-6)}
-    //             </td>
-    //             <td className="px-6 py-4 ">
-    //               {dealer.firstName} {dealer.lastName} {dealer.phoneNumber}
-    //             </td>
-    //             <td className="px-6 py-4 ">{dealer.addressLine2}</td>
-    //             <td className="px-6 py-4 ">
-    //               {/* {dealer.serviceLocations.map((location) => (
-    //                 <span>
-    //                   {location.pincode}
-    //                   {" , "}
-    //                 </span>
-    //               ))} */}
-    //            {   dealer.serviceLocations.map((location) => location.pincode).join(", ")}
+                <td className="px-6 py-4 whitespace-nowrap">
+                  {index + 1 + (currentPage - 1) * 10}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  {dealer.dealerId}
+                </td>
+                <td className="px-6 py-4 ">
+                  {dealer.firstName} {dealer.lastName} {dealer.phoneNumber}
+                </td>
+                <td className="px-6 py-4 ">{dealer.addressLine2}</td>
+                <td className="px-6 py-4 ">
+                  {/* {dealer.serviceLocations.map((location) => (
+                    <span>
+                      {location.pincode}
+                      {" , "}
+                    </span>
+                  ))} */}
+                  {/* {dealer.serviceLocations
+                    .map((location) => location.pincode)
+                    .join(", ")} */}
+                  {dealer.pincode}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  {dealer.quantity}
+                </td>
 
-    //             </td>
-    //             <td className="px-6 py-4 whitespace-nowrap">
-    //               {dealer.quantity}
-    //             </td>
-
-    //             <td className="px-6 py-4 whitespace-nowrap">
-    //               <span
-    //                 className={`text-${
-    //                   dealer.status === "Y" ? "green" : "red"
-    //                 }-500`}
-    //               >
-    //                 {dealer.status === "Y" ? <p>Active</p> : <p>Inative</p>}
-    //               </span>
-    //             </td>
-    //             {/* <td className="px-6 py-4 whitespace-nowrap">
-    //               <button className="text-blue-500 mr-2">
-    //                 <FaEdit />
-    //               </button>
-    //               <button className="text-red-500">
-    //                 <FaTrash />
-    //               </button>
-    //             </td> */}
-    //           </tr>
-    //         ))}
-    //       </tbody>
-    //     </table>
-    //     {dealersStatus === "succeeded" && (
-    //     <Pagination
-    //       totalProducts={dealersItems.data.total}
-    //       productsPerPage={dealersItems.data.limit}
-    //       onPageChange={handlePageChange}
-    //       currentPage={currentPage}
-    //     />
-    //   )}
-    //   </div>
-    // </div>
-    <></>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <span
+                    className={`text-${
+                      dealer.status === "Y" ? "green" : "red"
+                    }-500`}
+                  >
+                    {dealer.status === "Y" ? <p>Active</p> : <p>DeActive</p>}
+                  </span>
+                </td>
+                {/* <td className="px-6 py-4 whitespace-nowrap">
+                  <button className="text-blue-500 mr-2">
+                    <FaEdit />
+                  </button>
+                  <button className="text-red-500">
+                    <FaTrash />
+                  </button>
+                </td> */}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        {dealersStatus === "succeeded" && (
+          <Pagination
+            totalProducts={dealersItems.data.total}
+            productsPerPage={dealersItems.data.limit}
+            onPageChange={handlePageChange}
+            currentPage={currentPage}
+          />
+        )}
+      </div>
+    </div>
   );
 }
 
