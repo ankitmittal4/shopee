@@ -64,8 +64,10 @@ export const customerUpdate = createAsyncThunk(
   async (customerData, thunkAPI) => {
     // Here you can make a request to your API to invalidate the token if necessary
     try {
+      console.log("customerData: ", customerData);
       let headersList = {
         Authorization: localStorage.getItem("admin-token"),
+        "Content-Type": "multipart/form-data",
       };
       let reqOptions = {
         url: "http://3.6.127.143/api/admin/customer/edit",
@@ -73,7 +75,7 @@ export const customerUpdate = createAsyncThunk(
         headers: headersList,
         data: customerData,
       };
-
+      console.log("+++++");
       let response = await axios.request(reqOptions);
 
       const data = response;
@@ -89,7 +91,7 @@ export const customerUpdate = createAsyncThunk(
 
 const customerSlice = createSlice({
   name: "customer",
-  
+
   initialState: {
     customerList: [],
     customerListStatus: "idle",
@@ -103,9 +105,7 @@ const customerSlice = createSlice({
     customerEditSuccess: false,
     customerEditMessage: "",
   },
-  reducers: {
-    
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(customerListing.pending, (state) => {
@@ -137,22 +137,21 @@ const customerSlice = createSlice({
         state.customerDeleteLoading = false;
         state.customerDeleteSuccess = action.payload.success;
       })
-      
+
       .addCase(customerUpdate.pending, (state) => {
         state.customerEditLoading = true;
         state.customerEditStatus = "loading";
       })
       .addCase(customerUpdate.fulfilled, (state, action) => {
-        state.customerEditLoading= false;
+        state.customerEditLoading = false;
         state.customerEditSuccess = action.payload.success;
         state.customerEditStatus = "succeeded";
       })
       .addCase(customerUpdate.rejected, (state, action) => {
-        state.customerEditLoading= false;
+        state.customerEditLoading = false;
         state.customerEditSuccess = action.payload.success;
         state.customerEditStatus = "failed";
       });
-      
   },
 });
 

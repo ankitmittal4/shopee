@@ -276,7 +276,7 @@ function OrderManagement() {
 
                   <td className="px-5 py-4 whitespace-nowrap">
                     <button
-                      // onClick={() => handleEditOrder(order.subOrderId)}
+                      onClick={() => handleEditOrder(order.subOrderId)}
                       className="text-blue-500 mr-2"
                     >
                       <img src={edit} alt="" className="h-7 w-10" />

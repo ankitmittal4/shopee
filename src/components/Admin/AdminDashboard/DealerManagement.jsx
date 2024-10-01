@@ -269,6 +269,8 @@ const DealerForm = () => {
               formData.append(key, changedValues[key]);
             }
           }
+          console.log("dealer formData: ", formData);
+
           handleAdddealer(formData);
         } else {
           setLoading(false);
@@ -361,8 +363,8 @@ const DealerForm = () => {
     setShouldFetch(true);
     setDealerForm({
       ...dealer,
-      // password: "",
-      // repassword: "",
+      password: "",
+      repassword: "",
       status: dealer.status,
     });
     setInitialDeaeler(dealer);

@@ -24,7 +24,7 @@ import { MdDeveloperBoard } from "react-icons/md";
 import point_icon from "..//..//./../Assets/point-icon.svg";
 import delete1 from "../../../Assets/delete.svg";
 import edit from "../../../Assets/edit.svg";
-
+import axios from "axios";
 // Sample data for countries and states
 const countryStateData = CuntrysData;
 
@@ -53,15 +53,34 @@ const CustomerManagements = () => {
   const [states, setStates] = useState([]);
   const dispatch = useDispatch();
   const [customers, setCustomers] = useState([]);
+  const [loading, setLoading] = useState(false);
+
   const [customerForm, setCustomerForm] = useState({
     firstName: "",
     lastName: "",
+    dob: "",
+    gender: "",
+    occupation: "",
+    pincode: "",
     email: "",
     phoneNumber: "",
+    addressLine1: "",
+    addressLine2: "",
+    country: "",
+    state: "",
+    status: "",
   });
   const [showCustomer, setShowCustomer] = useState(false);
   const [deleteCustomerId, setDeleteCustomerId] = useState(null);
   const [deletePopup, setShowDeletePopup] = useState(false);
+  const [toast, setToast] = useState({
+    visible: false,
+    message: "",
+    type: "",
+  });
+  const closeToast = () => {
+    setToast({ visible: false, message: "", type: "" });
+  };
 
   const {
     customerList,
@@ -121,8 +140,48 @@ const CustomerManagements = () => {
   //   setToast({ visible: false, message: "", type: "" });
   // };
 
-  const handleAdddealer = async (data) => {
-    console.log(data);
+  const handleAddCustomer = async (data) => {
+    // try {
+    //   const headers = {
+    //     Authorization: localStorage.getItem("admin-token"),
+    //     "Content-Type": "multipart/form-data",
+    //   };
+    //   let reqOptions = {
+    //     url: "http://3.6.127.143/api/admin/dealer/add",
+    //     method: "POST",
+    //     headers: headers,
+    //     data: data,
+    //   };
+    //   const response = await axios.request(reqOptions);
+    //   // console.log(response);
+    //   if (response.data.success) {
+    //     setToast({
+    //       visible: true,
+    //       message: response.data.message,
+    //       type: "success",
+    //     });
+    //     setTimeout(() => {
+    //       handleCloseButton();
+    //     }, 2000);
+    //     dispatch(dealersList());
+    //   } else if (!response.data.success) {
+    //     setToast({
+    //       visible: true,
+    //       message: response.data.message,
+    //       type: "danger",
+    //     });
+    //   }
+    //   setLoading(false);
+    // } catch (error) {
+    //   setLoading(false);
+    //   console.log("errors are occuring during creating product", error);
+    //   setToast({
+    //     visible: true,
+    //     message: "Internal occurred while creating product",
+    //     type: "danger",
+    //   });
+    // }
+    // dispatch(dealersList());
   };
 
   const {
@@ -152,6 +211,7 @@ const CustomerManagements = () => {
       // formData.append('firstName', "rahul kumar updated")
 
       formData.append("customerId", customerEditId);
+      console.log("formData: ", formData);
       dispatch(customerUpdate(formData));
       // setCustomerEditId(null)
       actions.resetForm();
@@ -180,13 +240,12 @@ const CustomerManagements = () => {
 
   const handleEditCustomer = (custr) => {
     // setDealerForm(dealer);
+    console.log("custr: ", custr);
     setCustomerForm(custr);
     setShowCustomer(true);
     setCustomerEditId(custr._id);
 
-    console.log(custr._id);
-
-    // console.log(dealer);
+    // console.log(custr._id);
   };
 
   console.log(customerEditLoading);
@@ -276,7 +335,8 @@ const CustomerManagements = () => {
                 <Loader1 />
               ) : ( */}
                 {customerEditLoading && <Loader1 />}
-                {customerForm.firstName ? "Save" : "Save Changes"}
+                {/* {customerForm.firstName ? "Save " : "Save Changes"} */}
+                Save Changes
                 {/* )} */}
               </button>
             </div>
@@ -432,7 +492,7 @@ const CustomerManagements = () => {
             </div>
             <div>
               <label className="block text-sm font-medium text-zinc-600">
-                Dealer Shop Pincode
+                Pincode
               </label>
               <input
                 placeholder=""

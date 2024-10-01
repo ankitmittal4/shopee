@@ -1006,7 +1006,7 @@ const ProductManagement = () => {
       setImagePreviews,
       setInitialProduct,
       setDealers,
-      dealers,
+      // dealers,
       setShowAddProduct,
       setImages,
       laodingDealerId, // If "loading" impacts the logic of this function
@@ -1015,19 +1015,42 @@ const ProductManagement = () => {
   console.log("linked dealers ---", dealers);
   useEffect(() => {
     if (items && items.data) {
-      console.log("#########################items--", items);
-      console.log("#########################form--", form);
       setProducts(items.data.products);
       setFilteredProducts(items.data.products);
       const newDealer = items.data.products.find(
         (product) => product._id === form._id
       );
-
-      console.log("#########################newDeaeler product--", newDealer);
+      // console.log('newDeaeler product--',newDealer);
       setDealers(newDealer?.dealer);
       console.log("newDeaeler product--", dealers);
     }
-  }, [items, form._id, dispatch, status, addProductStatus, currentPage]);
+  }, [dispatch, status, addProductStatus, currentPage]);
+  // const fetchProductDetails = async (formId) => {
+  //   console.log("||||||||||||||||||||||||||||");
+  //   try {
+  //     // Make the POST request to fetch product details
+  //     const response = await axios.post(
+  //       "http://3.6.127.143/api/admin/product/detail",
+  //       {
+  //         productId: formId, // Example product ID, can be dynamic
+  //       }
+  //     );
+
+  //     // Check if the response is successful
+  //     if (response.data.success) {
+  //       // Extract dealers from the response and update the state
+  //       const fetchedDealers = response.data.data.dealer;
+  //       setDealers(fetchedDealers);
+  //     } else {
+  //       console.error(
+  //         "Failed to fetch product details:",
+  //         response.data.message
+  //       );
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching product details:", error);
+  //   }
+  // };
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
