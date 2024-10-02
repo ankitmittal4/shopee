@@ -1,4 +1,3 @@
-
 import MultiRangeSlider from "multi-range-slider-react";
 import React, { useEffect, useState } from "react";
 import container from "../../Assets/container2.png";
@@ -9,7 +8,7 @@ import Navbar from "../Navbar/Navbar";
 import Products from "../Data/Products.json";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../../features/productSlice";
-import Sidebar from "./Sidebar";
+// import Sidebar from "./Sidebar";
 import Footer from "../Footer";
 import Pagination from "../Pagination/Pagination";
 import { useLocation } from "react-router-dom";
@@ -40,9 +39,9 @@ const Filter = () => {
 
   useEffect(() => {
     if (status === "idle") {
-      dispatch(fetchProducts({page:currentPage}));
+      dispatch(fetchProducts({ page: currentPage }));
     }
-  }, [dispatch, status ,path]);
+  }, [dispatch, status, path]);
 
   // useEffect(() => {
   //   if (items && items.data) {
@@ -52,13 +51,14 @@ const Filter = () => {
 
   useEffect(() => {
     if (items && items.data) {
-      let filtered = applyFilters(items.data.products, filters);
+      // let filtered = applyFilters(items.data.products, filters);
       // console.log("filtered", filtered);
-      let sorted = applySort(filtered, sortOption);
+      // let filtered = items.data;
+      // let sorted = applySort(filtered, sortOption);
       // console.log("sorted",sorted);
-      setFilteredProducts(sorted);
+      setFilteredProducts(items.data.products);
     }
-  }, [filters, sortOption ,path]);
+  }, [items, path]);
 
   //
 
@@ -180,33 +180,29 @@ const Filter = () => {
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
-    dispatch(fetchProducts({page:pageNumber}));
+    dispatch(fetchProducts({ page: pageNumber }));
 
     console.log(`Fetching data for page ${pageNumber}`);
   };
 
-  
-  
-
   return (
-
-    (<>   
+    <>
       <div className="flex flex-col md:flex-row pt-20">
-        <Sidebar onFilterChange={handleFilterChange} />
+        {/* <Sidebar onFilterChange={handleFilterChange} /> */}
 
         <div className="flex w-full h-full flex-col">
           <div className="flex-1 p-4 ">
             {/* Top Section of Product List */}
             <div className="flex flex-col md:flex-row justify-between items-center mb-4">
               <div className="text-gray-600 font-custom text-base">
-                <p>Offers/Search</p>
-                <p className="text-black font-medium text-base">
+                {/* <p>Offers/Search</p> */}
+                {/* <p className="text-black font-medium text-base">
                   Showing 1 – {filteredProducts?.length} of{" "}
                   {items?.data?.length} results for "Offers"
-                </p>
+                </p> */}
               </div>
               <div className="mt-2 md:mt-0">
-                <select
+                {/* <select
                   id="sort"
                   name="sort"
                   className="font-custom text-neutral-700 mt-1 block w-full pl-3 pr-10 py-2 text-base border-neutral-700 focus:ring-green-400 focus:outline-none focus:border-neutral-200 sm:text-sm rounded-md"
@@ -220,10 +216,10 @@ const Filter = () => {
                   <option>Avg: Customer Review</option>
                   <option>Newest Arrivals</option>
                   <option>Best Sellers</option>
-                </select>
+                </select> */}
               </div>
             </div>
-            <div className="w-full grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4  p-4 gap-2">
+            <div className="w-11/12 mx-auto">
               {status === "loading" && <p>Loading...</p>}
               {status === "failed" && <p>Error: {error}</p>}
               {status === "succeeded" &&
@@ -243,7 +239,7 @@ const Filter = () => {
         </div>
       </div>
       {/* <Footer/> */}
-    </>)
+    </>
   );
 };
 

@@ -1587,6 +1587,7 @@ const ProductManagement = () => {
                   <option value="nerolac">Nerolac</option>
                   <option value="hextona">Hextona</option>
                   <option value="guher">Guher</option>
+                  <option value="blueLife">Blu-Life</option>
                   {/* Options */}
                 </select>
                 {errors.brand && touched.brand && (
@@ -1595,7 +1596,7 @@ const ProductManagement = () => {
               </div>
               <div>
                 <label className="block text-sm font-medium text-zinc-600">
-                  Weight(Litres)
+                  Weight
                   <spanc className="text-red-500 text-lg text-center">*</spanc>
                 </label>
                 <input
@@ -1616,7 +1617,7 @@ const ProductManagement = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-20">
               <div>
                 <label className="block text-sm font-medium  text-zinc-600">
-                  Length(In inches)
+                  Length
                   <spanc className="text-red-500 text-lg text-center">*</spanc>
                 </label>
                 <input
@@ -1633,7 +1634,7 @@ const ProductManagement = () => {
               </div>
               <div>
                 <label className="block text-sm font-medium text-zinc-600">
-                  Width(In inches)
+                  Width
                   <spanc className="text-red-500 text-lg text-center">*</spanc>
                 </label>
                 <input
@@ -1650,7 +1651,7 @@ const ProductManagement = () => {
               </div>
               <div>
                 <label className="block text-sm font-medium text-zinc-600">
-                  Height(in inches)
+                  Height
                   <spanc className="text-red-500 text-lg text-center">*</spanc>
                 </label>
                 <input

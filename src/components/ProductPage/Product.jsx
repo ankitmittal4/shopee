@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import container from "../../Assets/Container.png";
-import container2 from "../../Assets/Container.png";
-import container3 from "../../Assets/Card1.png";
+// import container from "../../Assets/Container.png";
+// import container2 from "../../Assets/Container.png";
+// import container3 from "../../Assets/Card1.png";
 import deliveryIcon from "../../Assets/delieveryIcon.svg";
-import addtocartIcon from "../../Assets/addtocart.svg";
-import buynowIcon from "../../Assets/buynow.svg";
+import addToCartIcon from "../../Assets/addtocart.svg";
+import buyNowIcon from "../../Assets/buynow.svg";
 import productCard from "../../Assets/Container.png";
 
 import { IoIosStar } from "react-icons/io";
@@ -39,12 +39,12 @@ const cards = [
 ];
 
 const ProductDetail = () => {
-  const [searchResult, setSearchResult] = useState(undefined);
+  const [searchResult, setSearchResult] = useState(null);
   const [selectedImage, setSelectedImage] = useState(undefined);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const dispatch = useDispatch();
-  const { Details, detailError, detailStatus, Images } = useSelector(
+  const { detail, detailError, detailStatus, Images } = useSelector(
     (state) => state.productDetails
   );
   const { cartItems, statusbar } = useSelector((state) => state.addcartItem);
@@ -62,20 +62,30 @@ const ProductDetail = () => {
     dispatch(addItem(cartData));
   };
 
+  // Fetch product details when `id` changes
   useEffect(() => {
     if (detailStatus === "idle" && id) {
       dispatch(fetchProductDetails(id));
     }
   }, [dispatch, detailStatus, id]);
 
+  // Update searchResult when `detail` updates
   useEffect(() => {
-    if (Details && Details.data && id) {
-      const newdata = Details.data;
-      setSelectedImage(newdata?.images[0]);
+    if (detail && detail.data && id) {
+      const newdata = detail.data;
       setSearchResult(newdata);
     }
-  }, [Details, id]);
+  }, [detail, id]);
 
+  // Separate useEffect to log or track changes to searchResult
+  useEffect(() => {
+    if (searchResult) {
+      console.log("Updated searchResult: ", searchResult);
+      setSelectedImage(searchResult?.images[0]); // Optionally set the image
+    }
+  }, [searchResult]);
+
+  // Update cartData when searchResult and detailStatus are available
   useEffect(() => {
     if (detailStatus === "succeeded" && searchResult?.dealer?._id) {
       setCartData({
@@ -84,8 +94,9 @@ const ProductDetail = () => {
         quantity: 6,
       });
     }
-  }, [ detailStatus, searchResult, id]);
- console.log(cartData)
+  }, [detailStatus, searchResult, id]);
+
+  console.log("Cart Data: ", cartData);
   return (
     <>
       {detailStatus === "loading" && <Loader1 />}
@@ -133,20 +144,20 @@ const ProductDetail = () => {
               </div>
               <div className="text-zinc-500 text-base font-normal mb-4">
                 <span className="text-lg font-semibold">
-                  {searchResult?.quantity}L
+                  {/* {searchResult?.quantity}L */}
                 </span>
               </div>
               <div className="flex justify-between items-center mb-4 font-custom">
                 <div class="">
                   <span className="text-2xl font-bold text-neutral-600 mr-4">
-                    ₹{searchResult?.sellingPrice}
+                    {/* ₹{searchResult?.sellingPrice} */}
                   </span>
                   <span className="text-base text-red-600 line-through mr-2">
-                    ₹{searchResult?.mrp}
+                    {/* ₹{searchResult?.mrp} */}
                   </span>
                 </div>
                 <span className="border border-amber-400 bg-amber-50 text-amber-400 rounded-full px-2 py-1 text-base font-semibold">
-                  {searchResult?.discountPercentage} % off
+                  {/* {searchResult?.discountPercentage} % off */}
                 </span>
               </div>
               <div className="flex items-center text-green-500 mb-4 font-custom text-sm font-medium">
@@ -200,15 +211,15 @@ const ProductDetail = () => {
                   className="md:w-72 border rounded-xl p-6 relative font-custom text-black flex flex-col gap-4 flex-wrap"
                 >
                   <p className="text-base font-medium">
-                    {searchResult?.dealer.firstName}{" "}
-                    {searchResult?.dealer.lastName}
+                    {/* {searchResult?.dealer.firstName}{" "} */}
+                    {/* {searchResult?.dealer.lastName} */}
                     {/* {sellers.firstName}{" "}{sellers.lastName} */}
                   </p>
                   <p className="text-base font-medium">
-                    {searchResult?.dealer.phoneNumber}
+                    {/* {searchResult?.dealer.phoneNumber} */}
                   </p>
                   <p className="underline text-zinc-600 text-sm">
-                    {searchResult?.dealer.addressLine1}
+                    {/* {searchResult?.dealer.addressLine1} */}
                     {/* {sellers.addressLine1} */}
                   </p>
                   <input
@@ -236,22 +247,22 @@ const ProductDetail = () => {
                   className="font-custom flex px-6 py-4 bg-green-600 text-white rounded-full text-sm font-semibold"
                   onClick={() => addtocart()}
                 >
-                  <img src={buynowIcon} alt="" className="pr-2" />
+                  <img src={buyNowIcon} alt="" className="pr-2" />
                   ADD CART
                 </button>
                 <button className="font-custom flex px-6 py-4  text-white rounded-full bg-orange-400 font-semibold text-sm">
-                  <img src={addtocartIcon} alt="" className="pr-2" />
+                  <img src={addToCartIcon} alt="" className="pr-2" />
                   BUY NOW
                 </button>
               </div>
               <div className=" pt-4">
-                {/* <h3 className="text-lg font-bold mb-2">Product Details</h3> */}
-                {/* <p>Warranty: {product.details.warranty}</p>
-            <p>Brand: {product.details.brand}</p>
-            <p>Color: {product.details.color}</p>
-            <p>Finish Type: {product.details.finishType}</p>
-            <p>Size: {product.details.size}</p>
-            <p>Special Features: {product.details.specialFeatures}</p> */}
+                {/* <h3 className="text-lg font-bold mb-2">Product Details</h3>
+                <p>Warranty: {product.details.warranty}</p>
+                <p>Brand: {product.details.brand}</p>
+                <p>Color: {product.details.color}</p>
+                <p>Finish Type: {product.details.finishType}</p>
+                <p>Size: {product.details.size}</p>
+                <p>Special Features: {product.details.specialFeatures}</p> */}
                 <div className="overflow-x-auto w-80  font-custom">
                   <table className="min-w-full  rounded-lg border-none">
                     <tbody>
@@ -259,26 +270,26 @@ const ProductDetail = () => {
                         <th className="py-2 px-4 text-left text-zinc-600">
                           Warranty
                         </th>
-                        <td className="py-2 px-4">{searchResult?.warranty}</td>
+                        {/* <td className="py-2 px-4">{searchResult?.warranty}</td> */}
                       </tr>
                       <tr className="">
                         <th className="py-2 px-4 text-left text-zinc-600">
                           Brand
                         </th>
-                        <td className="py-2 px-4">{searchResult?.brand}</td>
+                        {/* <td className="py-2 px-4">{searchResult?.brand}</td> */}
                       </tr>
                       <tr className="">
                         <th className="py-2 px-4 text-left text-zinc-600">
                           Color
                         </th>
-                        <td className="py-2 px-4">{searchResult?.colour}</td>
+                        {/* <td className="py-2 px-4">{searchResult?.colour}</td> */}
                       </tr>
                       <tr className="">
                         <th className="py-2 px-4 text-left text-zinc-600">
                           Finish
                         </th>
                         <td className="py-2 px-4">
-                          {searchResult?.finishType}
+                          {/* {searchResult?.finishType} */}
                         </td>
                       </tr>
                       <tr className="">
@@ -292,7 +303,7 @@ const ProductDetail = () => {
                           Special Features
                         </th>
                         <td className="py-2 px-4">
-                          {searchResult?.specialFeature}
+                          {/* {searchResult?.specialFeature} */}
                         </td>
                       </tr>
                     </tbody>
@@ -301,13 +312,13 @@ const ProductDetail = () => {
                 <h4 className="text-base font-bold mt-4  text-zinc-600 px-4 font-custom mb-4">
                   About
                 </h4>
-                <ul className="list-disc ml-6 px-4 font-custom">
+                {/* <ul className="list-disc ml-6 px-4 font-custom">
                   {searchResult?.about.map((feature, index) => (
                     <li key={index} className="mb-4">
                       {feature}
                     </li>
                   ))}
-                </ul>
+                </ul> */}
               </div>
             </div>
           </div>
@@ -332,6 +343,7 @@ const ProductDetail = () => {
         <Loader1 />
       )}
     </>
+    // <div className="mb-40 mt-40">{searchResult?.name}</div>
   );
 };
 

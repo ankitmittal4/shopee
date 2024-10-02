@@ -1,8 +1,8 @@
 import React from "react";
-import logo from "../Assets/logo.svg";
-import facebook from '../Assets/facebook.svg';
-import Twitter from '../Assets/twitter.svg';
-import LinkedIn from '../Assets/linkedin.svg';
+import logo from "../Assets/logo1.png";
+import facebook from "../Assets/facebook.svg";
+import Twitter from "../Assets/twitter.svg";
+import LinkedIn from "../Assets/linkedin.svg";
 
 const Footer = () => {
   return (
@@ -12,7 +12,11 @@ const Footer = () => {
           {/* First Section */}
           <div className="border border-neutral-200 p-4 flex items-center justify-center">
             <div>
-              <img src={logo} alt="Logo" className="w-24 mb-4 mx-auto md:mx-0" />
+              <img
+                src={logo}
+                alt="Logo"
+                className="w-36 mb-4 mx-auto md:mx-0 h-7"
+              />
               <div className="flex flex-col md:flex-row items-center mb-4 gap-4">
                 <input
                   type="email"
@@ -27,7 +31,7 @@ const Footer = () => {
                 <h4 className="font-bold mb-2">Contact</h4>
                 <div className="flex flex-col md:flex-row gap-6">
                   <p>123-456-7890</p>
-                  <p>info@paintplus.com</p>
+                  <p>oshoppe@gmail.com</p>
                 </div>
               </div>
             </div>
@@ -39,27 +43,19 @@ const Footer = () => {
               <h4 className="font-bold mb-2">Home</h4>
               <ul>
                 <li>
-                  <a href="#" className="hover:underline">About Us</a>
+                  <a href="#" className="hover:underline">
+                    About Us
+                  </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:underline">Contact Us</a>
+                  <a href="#" className="hover:underline">
+                    Contact Us
+                  </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:underline">Blog</a>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-bold mb-2">Categories</h4>
-              <ul>
-                <li>
-                  <a href="#" className="hover:underline">Interior Paints</a>
-                </li>
-                <li>
-                  <a href="#" className="hover:underline">Exterior Paints</a>
-                </li>
-                <li>
-                  <a href="#" className="hover:underline">Primers</a>
+                  <a href="#" className="hover:underline">
+                    Blog
+                  </a>
                 </li>
               </ul>
             </div>
@@ -67,13 +63,39 @@ const Footer = () => {
               <h4 className="font-bold mb-2">Categories</h4>
               <ul>
                 <li>
-                  <a href="#" className="hover:underline">Interior Paints</a>
+                  <a href="#" className="hover:underline">
+                    Interior Paints
+                  </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:underline">Exterior Paints</a>
+                  <a href="#" className="hover:underline">
+                    Exterior Paints
+                  </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:underline">Primers</a>
+                  <a href="#" className="hover:underline">
+                    Primers
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-bold mb-2">Categories</h4>
+              <ul>
+                <li>
+                  <a href="#" className="hover:underline">
+                    Interior Paints
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:underline">
+                    Exterior Paints
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:underline">
+                    Primers
+                  </a>
                 </li>
               </ul>
             </div>
@@ -81,13 +103,19 @@ const Footer = () => {
               <h4 className="font-bold mb-2">Service</h4>
               <ul>
                 <li>
-                  <a href="#" className="hover:underline">Consultation</a>
+                  <a href="#" className="hover:underline">
+                    Consultation
+                  </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:underline">Color Matching</a>
+                  <a href="#" className="hover:underline">
+                    Color Matching
+                  </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:underline">Delivery</a>
+                  <a href="#" className="hover:underline">
+                    Delivery
+                  </a>
                 </li>
               </ul>
             </div>
@@ -98,9 +126,14 @@ const Footer = () => {
         <div className="mt-8 border-t border-neutral-200 pt-4">
           <div className="flex flex-col md:flex-row justify-between items-center mb-4 px-4 md:px-24">
             <div className="mb-4 md:mb-0">
-              <a href="#" className="hover:underline">Terms & Conditions</a>{" "}
+              <a href="#" className="hover:underline">
+                Terms & Conditions
+              </a>{" "}
               |
-              <a href="#" className="hover:underline"> Privacy Policy</a>
+              <a href="#" className="hover:underline">
+                {" "}
+                Privacy Policy
+              </a>
             </div>
             <div className="flex space-x-4 mb-4 md:mb-0">
               <a href="#">
@@ -114,7 +147,9 @@ const Footer = () => {
               </a>
             </div>
             <div>
-              <p className="text-sm text-center md:text-left">© 2024 Paintplus. All rights reserved.</p>
+              <p className="text-sm text-center md:text-left">
+                © 2024 Paintplus. All rights reserved.
+              </p>
             </div>
           </div>
         </div>

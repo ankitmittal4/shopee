@@ -37,14 +37,14 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* <Route path="/" element={withLayout(Homepage)} />
-        <Route path="/signin" element={<SignIn />} />
-        <Route path="/signup" element={<SignUp />} />
+        {/* <Route path="/" element={withLayout(Homepage)} /> */}
+        {/* <Route path="/signin" element={<SignIn />} /> */}
+        {/* <Route path="/signup" element={<SignUp />} /> */}
         <Route path="/products/:id" element={withLayout(ProductDetail)} />
         <Route path="/products" element={withLayout(Filter)} />
         <Route path="/productlist" element={<ProductList />} />
-        <Route path="/cart" element={withLayout(Cart)} /> */}
-        <Route path="/adminlogin" element={<AdminSignIn />} />
+        {/* <Route path="/cart" element={withLayout(Cart)} /> */}
+        {/* <Route path="/adminlogin" element={<AdminSignIn />} /> */}
         {/* <Route path="/tost" element={<Tosts />} />
         <Route path="/dealerlink" element={<DealerLinking />} />
         <Route path="profile/*" element={withLayout(Profile)} />  */}

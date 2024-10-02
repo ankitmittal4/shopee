@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
-import logo from "../../Assets/logo.svg";
+import logo from "../../Assets/logo1.png";
+// import logo from "../../Assets/logo1.png";
+import logout1 from "../../Assets/logout.svg";
+
 import cartlogo from "../../Assets/Button.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -52,7 +55,7 @@ const Navbar = () => {
           </button>
         </div>
         <div className="flex items-center">
-          <img src={logo} alt="Logo" className="h-16 w-16 md:mr-2" />
+          <img src={logo} alt="Logo" className="w-44 h-6 mb-2 ml-0" />
         </div>
         <div className="hidden md:flex space-x-6">
           <HashLink smooth to="/#home" className="hover:text-blue-600">
@@ -208,7 +211,7 @@ const Navbar = () => {
           {!isAuthenticated ? (
             <Link
               to="/signin"
-              className="bg-green-600 text-white px-4 py-2 rounded-full hidden md:block"
+              className="bg-[#A70024] text-white px-4 py-2 rounded-full hidden md:block"
             >
               Login
             </Link>
@@ -286,13 +289,12 @@ const Navbar = () => {
                   Login
                 </Link>
               ) : (
-                <Link
-                  to="/"
-                  className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                <img
+                  src={logout1}
+                  alt=""
                   onClick={() => navigate("/profile")}
-                >
-                  Logout
-                </Link>
+                  className="w-10 h-10 cursor-pointer"
+                />
               )}
             </div>
           </div>
@@ -302,4 +304,13 @@ const Navbar = () => {
   );
 };
 
+{
+  /* <Link
+  to="/"
+  className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+  onClick={() => navigate("/profile")}
+>
+  Logout
+</Link>; */
+}
 export default Navbar;

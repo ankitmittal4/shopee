@@ -9,13 +9,13 @@ import axios from "axios";
 // Async thunk for fetching product list
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
-  async (pageDetails,thunkAPI) => {
+  async (pageDetails, thunkAPI) => {
     try {
       let reqOptions = {
         url: "http://3.6.127.143/api/guest/productList",
         method: "POST",
         // headers: headersList,
-        data:pageDetails
+        data: pageDetails,
       };
 
       let response = await axios.request(reqOptions);
@@ -30,15 +30,16 @@ export const fetchProductDetails = createAsyncThunk(
   "products/fetchProducts",
   async (id, thunkAPI) => {
     try {
+      console.log("productId: ", id);
       let reqOptions = {
         url: "http://3.6.127.143/api/guest/productDetail",
         method: "POST",
         // headers: headersList,
-        data:{productId:id},
+        data: { productId: id },
       };
 
       let response = await axios.request(reqOptions);
-      // console.log("details",response.data)
+      console.log("details", response.data);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);
@@ -73,9 +74,9 @@ const productSlice = createSlice({
 const productDetailSlice = createSlice({
   name: "productDetails",
   initialState: {
-    Details: [],
+    detail: null, // Use singular since it's one product's details
     detailStatus: "idle",
-    DetailError: null,
+    detailError: null, // Capture errors
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -85,12 +86,11 @@ const productDetailSlice = createSlice({
       })
       .addCase(fetchProductDetails.fulfilled, (state, action) => {
         state.detailStatus = "succeeded";
-        state.Details = action.payload;
-     
+        state.detail = action.payload; // Store product details from action.payload
       })
       .addCase(fetchProductDetails.rejected, (state, action) => {
         state.detailStatus = "failed";
-        // state.Details = action.payload;
+        state.detailError = action.payload; // Capture the error from the rejected case
       });
   },
 });
