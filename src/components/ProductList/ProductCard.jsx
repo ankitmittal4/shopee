@@ -38,7 +38,11 @@ const ProductCard = ({ product }) => {
               : product.name}
           </p>
           <div className="flex items-center">
-            <IoIosStar className="text-lg text-green-600" />
+            <IoIosStar className="text-lg text-orange-500" />
+            <IoIosStar className="text-lg text-orange-500" />
+            <IoIosStar className="text-lg text-orange-500" />
+            <IoIosStar className="text-lg text-orange-500" />
+            <IoIosStar className="text-lg text-orange-500" />
             <span className="text-black text-sm pl-2 py-1 font-semibold">
               {product.rating}
             </span>
