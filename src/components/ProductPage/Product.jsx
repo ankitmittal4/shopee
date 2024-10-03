@@ -19,6 +19,7 @@ import {
 } from "../../features/productSlice";
 import { addItem } from "../../features/CartCred/cartSlice";
 import Loader1 from "../Loaders/Loader1";
+import ReviewItem from "./ReviewItem";
 
 const cards = [
   {
@@ -97,12 +98,54 @@ const ProductDetail = () => {
   }, [detailStatus, searchResult, id]);
 
   console.log("Cart Data: ", cartData);
+
+  //FIXME: builder
+  const deliveryInfos = [
+    {
+      storeName: "Manish Paints store",
+      phoneNumber: "9865478965",
+      address: "1/23B, Pillayar kovil street, Saidapet, Chennai,621806",
+      isSelected: false,
+    },
+    {
+      storeName: "Manish Paints store",
+      phoneNumber: "9865478965",
+      address: "1/23B, Pillayar kovil street, Saidapet, Chennai,621806",
+      isSelected: true,
+    },
+  ];
+
+  const productFeatures = [
+    {
+      name: "Purification",
+      icon: "https://cdn.builder.io/api/v1/image/assets/TEMP/c4af362965c7307dcc385082edcbe7557eb977089482ee5d642edb0a0241c730?placeholderIfAbsent=true&apiKey=50465c6614934414afb216301fa69ff8",
+    },
+    {
+      name: "Taste & Odour",
+      icon: "https://cdn.builder.io/api/v1/image/assets/TEMP/e23ce1dfaee485cba54d678a12b963ae7c7f76e7292243420da808b91c9226ae?placeholderIfAbsent=true&apiKey=50465c6614934414afb216301fa69ff8",
+    },
+    {
+      name: "Design & Features",
+      icon: "https://cdn.builder.io/api/v1/image/assets/TEMP/328f93d33cf51468957885de75add1d04b680bb50d1fe96e6423fb27d116583c?placeholderIfAbsent=true&apiKey=50465c6614934414afb216301fa69ff8",
+    },
+    {
+      name: "Capacity",
+      icon: "https://cdn.builder.io/api/v1/image/assets/TEMP/420efba5c002d6d3ef25092326d8413a83c510554d961a1d15e74642f11f6913?placeholderIfAbsent=true&apiKey=50465c6614934414afb216301fa69ff8",
+    },
+  ];
+  const ratings = [
+    { stars: 5, count: 10638, percentage: 100 },
+    { stars: 4, count: 3067, percentage: 29 },
+    { stars: 3, count: 1086, percentage: 10 },
+    { stars: 2, count: 513, percentage: 0 },
+    { stars: 1, count: 2467, percentage: 23 },
+  ];
   return (
     <>
       {detailStatus === "loading" && <Loader1 />}
       {detailStatus === "succeeded" ? (
-        <div className="container mx-auto p-4 px-8 pt-24">
-          <div className="grid grid-cols-1  md:flex  gap-8">
+        <div className="  p-4 px-8 pt-24 mx-10 ml-0">
+          <div className="grid grid-cols-1 md:flex  gap-8">
             {/* Left Side: Product Images */}
             <div className="w-[40%]">
               <div className="mb-4 p-4 bg-neutral-100 rounded-2xl">
@@ -129,14 +172,6 @@ const ProductDetail = () => {
             <div className="w-[60%] pr-6">
               <div className="flex justify-between items-center text-gray-600 text-sm mb-3">
                 <span className="text-sm">Deliver by Monday July 22</span>
-                <div className="flex items-center text-green-500 text-md">
-                  <img
-                    src={deliveryIcon}
-                    alt="Free Delivery"
-                    className="w-4 h-4 mr-1"
-                  />
-                  Free Delivery
-                </div>
               </div>
               <h1 className=" font-custom text-2xl font-semibold mb-2">
                 {searchResult?.name}
@@ -160,6 +195,14 @@ const ProductDetail = () => {
                 <span className="ml-4">
                   Warranty: {searchResult?.warranty} Year's
                 </span>
+                <div className="flex items-center text-green-500 text-md ml-7">
+                  <img
+                    src={deliveryIcon}
+                    alt="Free Delivery"
+                    className="w-4 h-4 mr-1"
+                  />
+                  Free Delivery
+                </div>
               </div>
               <div className="text-zinc-500 text-base font-normal mb-4">
                 <span className="text-lg font-semibold">
@@ -343,6 +386,157 @@ const ProductDetail = () => {
                   ))}
                 </ul>
               </div>
+              {/* //FIXME: Builder */}
+              {/* <div className="flex flex-col w-full max-md:max-w-full">
+                <h2 className="gap-6 self-start text-base text-zinc-600">
+                  Delivered by
+                </h2>
+                <div className="flex flex-wrap gap-6 items-start mt-3 w-full text-base font-medium text-zinc-900 max-md:max-w-full">
+                  {deliveryInfos.map((info, index) => (
+                    <div
+                      className={`flex relative flex-col flex-1 shrink justify-center p-4 rounded-md basis-0 min-w-[240px] rotate-[-1.734723475976807e-18rad] ${
+                        info.isSelected ? "bg-neutral-200 bg-opacity-20" : ""
+                      }`}
+                    >
+                      <h3 className="gap-2 self-start rotate-[1.734723475976807e-18rad]">
+                        {info.storeName}
+                      </h3>
+                      <p className="z-0 mt-2 uppercase rotate-[1.734723475976807e-18rad]">
+                        {info.phoneNumber}
+                      </p>
+                      <p className="gap-2 mt-2 w-full text-sm leading-5 rotate-[1.734723475976807e-18rad] text-zinc-600">
+                        {info.address}
+                      </p>
+                      <img
+                        loading="lazy"
+                        src={
+                          info.isSelected
+                            ? "https://cdn.builder.io/api/v1/image/assets/TEMP/73fe2c8d64780094fc2b8a82d3fd6790e8235f1b9372f4a3fee77f129e2236a8?placeholderIfAbsent=true&apiKey=50465c6614934414afb216301fa69ff8"
+                            : "https://cdn.builder.io/api/v1/image/assets/TEMP/8fd33ce5eba65410e244e66d2ce7820a87595d0d0948a5cf3c79b883f51df738?placeholderIfAbsent=true&apiKey=50465c6614934414afb216301fa69ff8"
+                        }
+                        className="object-contain absolute top-4 right-4 z-0 w-4 h-4 aspect-square"
+                        alt=""
+                      />
+                    </div>
+                  ))}
+                </div>
+                <div className="flex flex-col pt-6 mt-3 w-full max-md:max-w-full">
+                  <header className="flex justify-between w-full text-neutral-800 max-md:max-w-full">
+                    <h1 className="pt-6 pl-6 text-2xl leading-snug">
+                      Ratings & Reviews
+                    </h1>
+                    <button className="flex flex-col items-end pt-4 pr-4 text-sm text-center">
+                      <span className="px-8 py-4 bg-white rounded-sm shadow-[0px_1px_2px_rgba(0,0,0,0.26)] max-md:px-5">
+                        Rate Product
+                      </span>
+                    </button>
+                  </header>
+                  <div className="flex flex-wrap p-6 w-full max-md:px-5 max-md:max-w-full">
+                    <div className="flex flex-col grow shrink min-w-[240px] w-[250px]">
+                      <div className="flex flex-wrap w-full min-h-[111px]">
+                        <div className="flex flex-col grow shrink leading-snug text-center text-zinc-500 w-[83px]">
+                          <div className="flex flex-wrap justify-center w-full whitespace-nowrap text-neutral-800">
+                            <div className="flex flex-1 shrink gap-px items-start px-2 py-0.5 basis-0 size-full">
+                              <div className="self-start text-3xl">4.1</div>
+                              <div className="my-auto text-2xl">★</div>
+                            </div>
+                          </div>
+                          <div className="flex flex-wrap justify-center w-full text-sm">
+                            <div className="flex-1 shrink w-full">
+                              17,771 Ratings &
+                            </div>
+                          </div>
+                          <div className="flex flex-wrap justify-center w-full text-sm">
+                            <div className="flex-1 shrink w-full">
+                              2,128 Reviews
+                            </div>
+                          </div>
+                        </div>
+                        <div className="flex flex-col grow shrink justify-center pr-px pl-3 w-[187px]">
+                          <div className="flex flex-1 justify-center size-full">
+                            <div className="flex flex-col self-start pt-px text-xs leading-snug text-center whitespace-nowrap h-[93px] text-neutral-800 w-[33px]">
+                              {ratings.map(({ stars }) => (
+                                <div
+                                  key={stars}
+                                  className="flex gap-0.5 justify-center items-start py-px pr-1.5 pl-2 w-full"
+                                >
+                                  <div>{stars}</div>
+                                  <div>★</div>
+                                </div>
+                              ))}
+                            </div>
+                            <div className="flex flex-col  pl-1.5 w-[114px]">
+                              {ratings.map(({ stars, percentage }) => (
+                                <div
+                                  key={stars}
+                                  className="flex flex-col items-start mt-3.5 max-w-full bg-zinc-100 rounded-[93px] w-[107px] max-md:pr-5"
+                                >
+                                  <div
+                                    className={`flex shrink-0 h-1 ${
+                                      stars === 1
+                                        ? "bg-red-400"
+                                        : "bg-green-700"
+                                    } rounded-[93px]`}
+                                    style={{ width: `${percentage}%` }}
+                                  />
+                                </div>
+                              ))}
+                            </div>
+                            <div className="flex flex-col pt-px pb-0.5 text-xs leading-snug whitespace-nowrap text-zinc-500 w-[49px]">
+                              {ratings.map(({ count }) => (
+                                <div key={count} className="pl-3 w-full">
+                                  {count}
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex flex-col grow shrink w-80 min-w-[240px]">
+                      <div className="flex flex-wrap w-full">
+                        {productFeatures.map((feature, index) => (
+                          <div
+                            key={index}
+                            className="flex flex-col flex-1 shrink basis-0"
+                          >
+                            <div className="flex flex-col w-full">
+                              <div className="flex flex-col items-center px-5 pt-3 pb-1.5 w-full">
+                                <img
+                                  loading="lazy"
+                                  src={feature.icon}
+                                  className="object-contain aspect-[0.98] w-[58px]"
+                                  alt={`${feature.name} icon`}
+                                />
+                              </div>
+                              <div className="pb-px w-full text-sm leading-snug text-center text-neutral-800">
+                                {feature.name.includes("&") ? (
+                                  <>
+                                    {feature.name.split("&")[0]}&<br />
+                                    {feature.name.split("&")[1]}
+                                  </>
+                                ) : (
+                                  feature.name
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  <ReviewItem
+                    author="Faisal khan Khan"
+                    date="6 months ago"
+                    rating={5}
+                    review="When I order this product I was nervous because I was thinking aqua fresh water filter condition will be good or not etc. but when I received this product I saw quality is good and installation service very fast after installation drinking water quality totally change I like this product for this price thank you Flipkart."
+                  />
+                  <footer className="px-6 pt-6 pb-6 w-full text-base leading-snug text-blue-600 border-t border-zinc-100 max-md:px-5 max-md:max-w-full">
+                    All 2128 reviews
+                  </footer>
+                  <div className="flex w-full min-h-[1px] max-md:max-w-full" />
+                </div>
+              </div> */}
             </div>
           </div>
           <div className="font-custom w-full p-4 flex items-center justify-center flex-col gap-2 border-t-2 border-neautral-200 mt-4">
@@ -355,7 +549,6 @@ const ProductDetail = () => {
           </div>
           <div class="items-slider min-h-fit w-full">
             <CardContainer cards={cards} />
-            {/* <CustomRangeSlider/> */}
           </div>
 
           {isPopupOpen && (
@@ -366,7 +559,6 @@ const ProductDetail = () => {
         <Loader1 />
       )}
     </>
-    // <div className="mb-40 mt-40">{searchResult?.name}</div>
   );
 };
 
