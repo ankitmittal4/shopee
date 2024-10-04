@@ -43,8 +43,8 @@ function App() {
         <Route path="/products/:id" element={withLayout(ProductDetail)} />
         <Route path="/products" element={withLayout(Filter)} />
         <Route path="/productlist" element={<ProductList />} />
-        {/* <Route path="/cart" element={withLayout(Cart)} /> */}
-        {/* <Route path="/adminlogin" element={<AdminSignIn />} /> */}
+        <Route path="/cart" element={withLayout(Cart)} />
+        <Route path="/adminlogin" element={<AdminSignIn />} />
         {/* <Route path="/tost" element={<Tosts />} />
         <Route path="/dealerlink" element={<DealerLinking />} />
         <Route path="profile/*" element={withLayout(Profile)} />  */}

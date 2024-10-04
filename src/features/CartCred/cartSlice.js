@@ -52,7 +52,6 @@ export const updateItemQuantity = createAsyncThunk(
   }
 );
 
-
 export const getcartItemList = createAsyncThunk(
   "products/cartitems",
   async (thunkAPI) => {
@@ -88,7 +87,7 @@ const addItemSlice = createSlice({
     cartItems: [],
     isLoading: false,
     error: null,
-    statusbar:"idle",
+    statusbar: "idle",
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -110,10 +109,10 @@ const addItemSlice = createSlice({
 const updateitemSlice = createSlice({
   name: "updateCartItem",
   initialState: {
-    updatedData:[] ,
+    updatedData: [],
     isLoading: false,
     error: null,
-    quantityStatus:"idle",
+    quantityStatus: "idle",
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -138,7 +137,7 @@ const cartItemlistSlice = createSlice({
     cartProducts: [],
     cartLaoding: false,
     error: null,
-    cartStatus:"idle",
+    cartStatus: "idle",
   },
   reducers: {},
   extraReducers: (builder) => {

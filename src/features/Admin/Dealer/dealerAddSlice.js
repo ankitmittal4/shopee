@@ -73,14 +73,7 @@ export const dealerLinking = createAsyncThunk(
   async (linkingData, thunkAPI) => {
     // Here you can make a request to your API to invalidate the token if necessary
     try {
-      console.log("%%%%%%%%%%%%%%%%%linkingData: ", linkingData);
-      // const linkingData1 = {
-      //   productId: "66f571be7052ce66e4da6d30",
-      //   dealerIds: ["66f561f07052ce66e4da6bf0", "66f562107052ce66e4da6bf7"],
-      //   units: 10,
-      //   availability: "Y",
-      //   status: "D",
-      // };
+      console.log("@@linking data: ", linkingData);
       let headersList = {
         Authorization: localStorage.getItem("admin-token"),
       };
@@ -92,7 +85,6 @@ export const dealerLinking = createAsyncThunk(
       };
 
       let response = await axios.request(reqOptions);
-      // console.log("~~~~~~~~~~~~~~~~~~~~response: ", response);
 
       const data = response;
 
@@ -124,7 +116,6 @@ const dealerLinkSlice = createSlice({
         state.dealerLinkStatus = "loading";
       })
       .addCase(dealerLinking.fulfilled, (state, action) => {
-        console.log("^^^^^^^^^^^^^^^^^^^^action.payload", action.payload);
         state.dealerLinkLoading = false;
         state.dealer = true;
         state.dealerLinkStatus = "succeeded";
@@ -135,8 +126,8 @@ const dealerLinkSlice = createSlice({
       .addCase(dealerLinking.rejected, (state, action) => {
         state.dealerLinkLoading = false;
         state.dealerLinkStatus = "failed";
-        state.dealerLinkSuccess = false;
-        state.dealerLinkMsg = action.payload?.message || "An error occurred";
+        state.dealerLinkSuccess = action.payload.success;
+        // state.error = action.payload;
       });
   },
 });

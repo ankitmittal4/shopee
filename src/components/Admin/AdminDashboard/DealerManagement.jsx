@@ -424,7 +424,7 @@ const DealerForm = () => {
               onClick={handleShowDealer}
               className=" text-white px-4 py-2 rounded-md bg-[#A70024] hover:bg-red-700"
             >
-              Add Dealer
+              Link Dealer
             </button>
           </div>
         </div>

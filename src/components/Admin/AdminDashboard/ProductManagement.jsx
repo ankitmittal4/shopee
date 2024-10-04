@@ -991,7 +991,7 @@ const ProductManagement = () => {
         manufacturingDate: formatDate(product.manufacturingDate),
         expiryDate: formatDate(product.expiryDate),
       });
-
+      console.log("product.dealer: ", product.dealer);
       setDealers(product.dealer);
       setShowAddProduct(true);
       setImages(product.images);
@@ -1020,7 +1020,7 @@ const ProductManagement = () => {
       const newDealer = items.data.products.find(
         (product) => product._id === form._id
       );
-      // console.log('newDeaeler product--',newDealer);
+      console.log("newDeaeler product--", newDealer);
       setDealers(newDealer?.dealer);
       console.log("newDeaeler product--", dealers);
     }
@@ -2269,10 +2269,10 @@ const ProductManagement = () => {
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span
                         className={`text-${
-                          dealer.status === "Y" ? "green" : "red"
+                          dealer.status === "A" ? "green" : "red"
                         }-500`}
                       >
-                        {dealer.status === "Y" ? (
+                        {dealer.status === "A" ? (
                           <p>Active</p>
                         ) : (
                           <p>DeActive</p>
