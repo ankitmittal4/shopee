@@ -992,6 +992,7 @@ const ProductManagement = () => {
         expiryDate: formatDate(product.expiryDate),
       });
       console.log("product.dealer: ", product.dealer);
+      console.log("update setDealers");
       setDealers(product.dealer);
       setShowAddProduct(true);
       setImages(product.images);
@@ -1021,6 +1022,7 @@ const ProductManagement = () => {
         (product) => product._id === form._id
       );
       console.log("newDeaeler product--", newDealer);
+      console.log("update setDealers");
       setDealers(newDealer?.dealer);
       console.log("newDeaeler product--", dealers);
     }
@@ -2211,9 +2213,9 @@ const ProductManagement = () => {
                   // checked={selectedDealerIds.length === filteredDealers.length}
                 />
               </th> */}
-                  <th className="px-6 py-3 text-left text-xs text-white font-bold tracking-wider">
+                  {/* <th className="px-6 py-3 text-left text-xs text-white font-bold tracking-wider">
                     No
-                  </th>
+                  </th> */}
                   <th className="px-6 py-3 text-left text-xs text-white font-bold tracking-wider">
                     Id
                   </th>
@@ -2248,7 +2250,7 @@ const ProductManagement = () => {
                     />
                   </td> */}
 
-                    <td className="px-6 py-4 whitespace-nowrap">{index + 1}</td>
+                    {/* <td className="px-6 py-4 whitespace-nowrap">{index + 1}</td> */}
                     <td className="px-6 py-4 whitespace-nowrap">
                       {dealer.dealerId}
                     </td>

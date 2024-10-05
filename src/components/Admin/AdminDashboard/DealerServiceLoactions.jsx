@@ -93,7 +93,17 @@ function DealerServiceLocations({ dealerId, shouldFetch }) {
   const [success, setSuccess] = useState(false);
 
   const validationSchema = Yup.object().shape({
-    pincode: Yup.number().required("Enter pincode"),
+    // pincode: Yup.number()
+    //   .required("Enter pincode")
+    //   .matches(/^\d{6}$/, "Pincode must be exactly 6 digits"),
+    pincode: Yup.number()
+      .typeError("Pincode must be a number")
+      .required("Enter pincode")
+      .test(
+        "len",
+        "Pincode must be exactly 6 digits",
+        (val) => val && val.toString().length === 6
+      ),
     locationName: Yup.string().required("Enter location name"),
     state: Yup.string().required("Enter state"),
   });

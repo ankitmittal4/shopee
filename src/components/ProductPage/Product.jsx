@@ -50,6 +50,7 @@ const ProductDetail = () => {
   );
   const { cartItems, statusbar } = useSelector((state) => state.addcartItem);
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [dealers, setDealers] = useState([]);
   const params = useParams();
   const id = params.id;
 
@@ -72,9 +73,49 @@ const ProductDetail = () => {
 
   // Update searchResult when `detail` updates
   useEffect(() => {
+    console.log("detail: ", detail);
+    console.log("id: ", id);
     if (detail && detail.data && id) {
       const newdata = detail.data;
+      console.log("#newdata: ", newdata);
       setSearchResult(newdata);
+      // setDealers(newdata.dealer);
+      setDealers([
+        {
+          _id: "66fec2b4f28543012429974b",
+          firstName: "Amit Dealer",
+          lastName: "+2",
+          phoneNumber: "9806098960",
+          city: "Kuk",
+          state: "Haryana",
+          country: "India",
+          addressLine1: "Haryana",
+          dealerServiceLocations: [
+            {
+              _id: "67002d87185d5f7ae8c8f9c5",
+              dealerRef: "66fec2b4f28543012429974b",
+              pincode: 132001,
+              locationName: "Kurukshetra",
+              state: "haryana",
+              deleted: false,
+              createdAt: "2024-10-04T18:01:43.869Z",
+              updatedAt: "2024-10-04T18:01:43.869Z",
+              __v: 0,
+            },
+            {
+              _id: "6700d95ca2e6f8549565477b",
+              dealerRef: "66fec2b4f28543012429974b",
+              pincode: 132001,
+              locationName: "Kurukshetra",
+              state: "haryana",
+              deleted: false,
+              createdAt: "2024-10-05T06:14:52.480Z",
+              updatedAt: "2024-10-05T06:14:52.480Z",
+              __v: 0,
+            },
+          ],
+        },
+      ]);
     }
   }, [detail, id]);
 
@@ -387,27 +428,30 @@ const ProductDetail = () => {
                 </ul>
               </div>
               {/* //FIXME: Builder */}
-              {/* <div className="flex flex-col w-full max-md:max-w-full">
+              <div className="flex flex-col w-full max-md:max-w-full">
                 <h2 className="gap-6 self-start text-base text-zinc-600">
                   Delivered by
                 </h2>
-                <div className="flex flex-wrap gap-6 items-start mt-3 w-full text-base font-medium text-zinc-900 max-md:max-w-full">
-                  {deliveryInfos.map((info, index) => (
+                <div className="flex flex-wrap gap-6 items-start mt-3 w-1/2 text-base font-medium text-zinc-900 max-md:max-w-full">
+                  {dealers.map((info, index) => (
                     <div
-                      className={`flex relative flex-col flex-1 shrink justify-center p-4 rounded-md basis-0 min-w-[240px] rotate-[-1.734723475976807e-18rad] ${
-                        info.isSelected ? "bg-neutral-200 bg-opacity-20" : ""
-                      }`}
+                      // className={`flex relative flex-col flex-1 shrink justify-center p-4 rounded-md basis-0 min-w-[240px] rotate-[-1.734723475976807e-18rad] border-red-400 outline-red-500 ${
+                      //   info.isSelected ? "bg-neutral-200 bg-opacity-20" : ""
+                      // }`}
+                      className="flex relative flex-col flex-1 shrink justify-center p-4 rounded-md basis-0 min-w-[240px] rotate-[-1.734723475976807e-18rad]  bg-neutral-200 bg-opacity"
                     >
                       <h3 className="gap-2 self-start rotate-[1.734723475976807e-18rad]">
-                        {info.storeName}
+                        {info.firstName}
+                        {info.lastName}
                       </h3>
                       <p className="z-0 mt-2 uppercase rotate-[1.734723475976807e-18rad]">
                         {info.phoneNumber}
                       </p>
                       <p className="gap-2 mt-2 w-full text-sm leading-5 rotate-[1.734723475976807e-18rad] text-zinc-600">
-                        {info.address}
+                        {info.addressLine1},{info.city},{info.state},
+                        {info.dealerServiceLocations[0].pincode}
                       </p>
-                      <img
+                      {/* <img
                         loading="lazy"
                         src={
                           info.isSelected
@@ -416,11 +460,11 @@ const ProductDetail = () => {
                         }
                         className="object-contain absolute top-4 right-4 z-0 w-4 h-4 aspect-square"
                         alt=""
-                      />
+                      /> */}
                     </div>
                   ))}
                 </div>
-                <div className="flex flex-col pt-6 mt-3 w-full max-md:max-w-full">
+                {/* <div className="flex flex-col pt-6 mt-3 w-full max-md:max-w-full">
                   <header className="flex justify-between w-full text-neutral-800 max-md:max-w-full">
                     <h1 className="pt-6 pl-6 text-2xl leading-snug">
                       Ratings & Reviews
@@ -535,8 +579,8 @@ const ProductDetail = () => {
                     All 2128 reviews
                   </footer>
                   <div className="flex w-full min-h-[1px] max-md:max-w-full" />
-                </div>
-              </div> */}
+                </div> */}
+              </div>
             </div>
           </div>
           <div className="font-custom w-full p-4 flex items-center justify-center flex-col gap-2 border-t-2 border-neautral-200 mt-4">

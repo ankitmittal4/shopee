@@ -227,7 +227,7 @@ function DealerLinking({ productId }) {
                   placeholder="Enter Number Of Units"
                   value={units}
                   onChange={(e) => setUnits(e.target.value)}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 mb-4 outline-none hover:border-orange-500 bg-transparent"
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 mb-4 outline-none hover:border-blue-800 bg-transparent"
                 />
                 {error && <p className="text-red-500 mb-2 text-sm">{error}</p>}
                 <div className="flex justify-between">
@@ -239,7 +239,7 @@ function DealerLinking({ productId }) {
                   </button>
                   <button
                     onClick={handleAddDealer}
-                    className="bg-green-500 text-white px-3 py-2 rounded-md"
+                    className="bg-[#A70024] text-white px-3 py-2 rounded-md"
                   >
                     Add Dealer
                   </button>
@@ -298,6 +298,7 @@ function DealerLinking({ productId }) {
         <div className="space-x-4">
           <button
             className="bg-[#A70024] hover:bg-red-700 text-white px-4 py-2 rounded-lg "
+            // onClick={() => handleAddDealer()}
             onClick={() => handleButtonClick()}
           >
             Link Dealer
@@ -306,7 +307,7 @@ function DealerLinking({ productId }) {
       </div>
       <div className="bg-white rounded-lg shadow overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200 bg-neutral-200">
-          <thead>
+          <thead className="bg-[#5C5C5C]">
             <tr>
               <th className="px-6 py-3 text-left">
                 <input
@@ -315,28 +316,28 @@ function DealerLinking({ productId }) {
                   checked={selectedDealerIds.length === filteredDealers.length}
                 />
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              {/* <th className="px-6 py-3 text-left text-xs font-medium text-white  tracking-wider">
                 No
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              </th> */}
+              <th className="px-6 py-3 text-left text-xs font-medium text-white  tracking-wider">
                 Id
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-white  tracking-wider">
                 Name & Phone No
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-white  tracking-wider">
                 Address
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-white  tracking-wider">
                 Serviceable Pincode
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-white  tracking-wider">
                 Qty
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-white  tracking-wider">
                 Status
               </th>
-              {/* <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              {/* <th className="px-6 py-3 text-left text-xs font-medium text-white  tracking-wider">
                 Action
               </th> */}
             </tr>
@@ -352,11 +353,11 @@ function DealerLinking({ productId }) {
                   />
                 </td>
 
-                <td className="px-6 py-4 whitespace-nowrap">
+                {/* <td className="px-6 py-4 whitespace-nowrap">
                   {index + 1 + (currentPage - 1) * 10}
-                </td>
+                </td> */}
                 <td className="px-6 py-4 whitespace-nowrap">
-                  {dealer._id.slice(-6)}
+                  {dealer.dealerId}
                 </td>
                 <td className="px-6 py-4 ">
                   {dealer.firstName} {dealer.lastName} {dealer.phoneNumber}

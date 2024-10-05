@@ -33,9 +33,14 @@ const validationSchema = Yup.object({
   dob: Yup.date().required("Required"),
   gender: Yup.string().required("Required"),
   occupation: Yup.string().required("Required"),
-  pincode: Yup.string()
-    .required("Required")
-    .matches(/^[0-9]+$/, "Pincode must be only numbers"),
+  pincode: Yup.number()
+    .typeError("Pincode must be a number")
+    .required("Enter pincode")
+    .test(
+      "len",
+      "Pincode must be exactly 6 digits",
+      (val) => val && val.toString().length === 6
+    ),
   password: Yup.string().required("Required"),
   repassword: Yup.string()
     .required("Required")
@@ -53,6 +58,14 @@ const validationSchema = Yup.object({
   pincode: Yup.string()
     .matches(/^[0-9]+$/, "Pincode must be only numbers")
     .required("Pincode is required"),
+  pincode: Yup.number()
+    .typeError("Pincode must be a number")
+    .required("Enter pincode")
+    .test(
+      "len",
+      "Pincode must be exactly 6 digits",
+      (val) => val && val.toString().length === 6
+    ),
   //   dateOfJoining: Yup.date().required("Required"),
   addressLine1: Yup.string().required("Required"),
   addressLine2: Yup.string(),
@@ -106,6 +119,7 @@ const DealerForm = () => {
 
   useEffect(() => {
     if (dealersItems && dealersItems.data) {
+      console.log("dealersItems.data: ", dealersItems.data);
       setDealers(dealersItems.data.dealers);
     }
   }, [dispatch, dealersStatus, dealersItems, dealerStatus, currentPage]);
@@ -145,6 +159,7 @@ const DealerForm = () => {
     status: "A",
     repassword: "",
     shopImage: null,
+    geoLocationCode: "",
     //   serviceLocations: [],
   });
 
@@ -191,7 +206,7 @@ const DealerForm = () => {
         Authorization: localStorage.getItem("admin-token"),
         "Content-Type": "multipart/form-data",
       };
-
+      console.log("!!!data: ", data);
       let reqOptions = {
         url: "http://3.6.127.143/api/admin/dealer/add",
         method: "POST",
@@ -200,7 +215,7 @@ const DealerForm = () => {
       };
 
       const response = await axios.request(reqOptions);
-      // console.log(response);
+      console.log("!!!response: ", response);
 
       if (response.data.success) {
         setToast({
@@ -351,6 +366,7 @@ const DealerForm = () => {
       status: "A",
       repassword: "",
       shopImage: null,
+      geoLocationCode: "",
     });
     setImage({});
     setDealerEditId(null);
@@ -359,13 +375,16 @@ const DealerForm = () => {
   console.log(values);
 
   const handleEditDealer = (dealer) => {
+    console.log("@@@dealer: ", dealer.geoLocationCode);
     setIncludeId(true);
     setShouldFetch(true);
+
     setDealerForm({
       ...dealer,
       password: "",
       repassword: "",
       status: dealer.status,
+      geoLocationCode: dealer.geoLocationCode,
     });
     setInitialDeaeler(dealer);
     setImage(dealer.shopImage);
@@ -590,7 +609,7 @@ const DealerForm = () => {
                   <spanc className="text-red-500 text-lg text-center">*</spanc>
                 </label>
                 <input
-                  type="text"
+                  type="number"
                   name="pincode"
                   value={values.pincode}
                   onChange={handleChange}
@@ -841,7 +860,7 @@ const DealerForm = () => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-20">
-              <div>
+              {/* <div>
                 <label className="block text-sm  text-zinc-600">
                   Service Able Pincode
                   <spanc className="text-red-500 text-lg text-center">*</spanc>
@@ -857,7 +876,7 @@ const DealerForm = () => {
                 {errors.pincode && touched.pincode && (
                   <p className="text-red-500 text-sm">{errors.pincode}</p>
                 )}
-              </div>
+              </div> */}
               <div>
                 <label className="block text-sm  text-zinc-600">
                   Geo Location Code
@@ -1061,10 +1080,15 @@ const DealerForm = () => {
                     {/* {dealer.addressLine2.length > 15
                       ? `${dealer.addressLine2.substring(0, 14)}...`
                       : dealer.addressLine2} */}
-                    {dealer.addressLine2}
+                    {dealer.addressLine2}, {dealer.pincode}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <p>{dealer.pincode}</p>
+                    {/* <p>{dealer.serviceLocations[0].pincode}</p> */}
+                    <ul>
+                      {dealer.serviceLocations.map((location, index) => (
+                        <li key={index}>{location.pincode}</li>
+                      ))}
+                    </ul>
                   </td>
                   <td className="px-4 py-4 whitespace-nowrap">
                     {dealer.quantity}
